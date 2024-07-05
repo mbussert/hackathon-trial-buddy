@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useState } from 'react'
 
 export default function Form(props: { create: any; latestMessage: any }) {
-  const [message, setMessage] = useState("");
-  const [sending, setSending] = useState<boolean>(false);
+  const [message, setMessage] = useState('')
+  const [sending, setSending] = useState<boolean>(false)
 
   const onSubmit = async (e: any) => {
-    setSending(true);
-    await props.create(message);
-  };
+    setSending(true)
+    await props.create(message)
+  }
 
   const handleRefresh = async (e: any) => {
-    console.log("hey");
-    window.location.reload();
-  };
+    console.log('hey')
+    window.location.reload()
+  }
 
   return (
     <>
@@ -27,7 +27,7 @@ export default function Form(props: { create: any; latestMessage: any }) {
           <textarea
             name="message"
             required
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={e => setMessage(e.target.value)}
             className="w-full min-h-[10rem] p-3 bg-slate-1000/40 border border-indigo-900/50 dark:border-indigo-400/50 outline-none rounded-md dark:text-black"
           />
         </label>
@@ -36,22 +36,20 @@ export default function Form(props: { create: any; latestMessage: any }) {
             type="submit"
             disabled={sending}
             className={`button group inline-flex items-center justify-center gap-0.5 rounded-full font-medium tracking-tight transition-all text-sm px-10 py-2.5 text-white bg-indigo-500 hover:bg-indigo-400 ${
-              sending ? "opacity-50" : ""
+              sending ? 'opacity-50' : ''
             }`}
           >
-            {sending ? "Sending..." : "Send"}
+            {sending ? 'Sending...' : 'Send'}
           </button>
         </div>
       </form>
       <div className="inline-flex items-center justify-center">
         <p>
-          {props.latestMessage?.author == "AI"
-            ? "🤖 AI's response:"
-            : "➡️ Your last message:"}
-          {` "${props.latestMessage?.text}"` ?? "No message found"}
+          {props.latestMessage?.author == 'AI' ? "🤖 AI's response:" : '➡️ Your last message:'}
+          {` "${props.latestMessage?.text}"` ?? 'No message found'}
         </p>
       </div>
-      {props.latestMessage?.author != "AI" && (
+      {props.latestMessage?.author != 'AI' && (
         <button
           onClick={handleRefresh}
           type="button"
@@ -61,5 +59,5 @@ export default function Form(props: { create: any; latestMessage: any }) {
         </button>
       )}
     </>
-  );
+  )
 }
