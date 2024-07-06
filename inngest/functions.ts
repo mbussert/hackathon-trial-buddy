@@ -62,12 +62,28 @@ export const syncUser = inngest.createFunction(
     const user = event.data
     const { id, first_name, last_name } = user
 
-    const email = user.email_addresses.find(
-      (e: any) => e.id === user.primary_email_address_id,
-    ).email
+    let email = user.email_addresses.find((e: any) => e.id === user.primary_email_address_id).email
+
+    if (!email) {
+      email = user.email_addresses[0].email_address
+    }
 
     const saveUser = await prisma.users.create({ data: { id, email, first_name, last_name } })
 
     return { event, body: `Welcome, ${saveUser?.email}!` }
+  },
+)
+
+export const deleteUser = inngest.createFunction(
+  { id: 'delete-user-from-clerk' },
+  { event: 'clerk/user.deleted' },
+
+  async ({ event, prisma }) => {
+    const user = event.data
+    const { id } = user
+
+    const deletedUser = await prisma.users.delete({ where: { id } })
+
+    return { event, body: deletedUser }
   },
 )

@@ -1,11 +1,11 @@
-import { Inngest, InngestMiddleware } from "inngest";
-import { PrismaClient } from "@prisma/client";
+import { Inngest, InngestMiddleware } from 'inngest'
+import { PrismaClient } from '@prisma/client'
 
 // make Prisma available in the Inngest functions
 const prismaMiddleware = new InngestMiddleware({
-  name: "Prisma Middleware",
+  name: 'Prisma Middleware',
   init() {
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient()
 
     return {
       onFunctionRun(ctx) {
@@ -16,16 +16,16 @@ const prismaMiddleware = new InngestMiddleware({
               ctx: {
                 prisma,
               },
-            };
+            }
           },
-        };
+        }
       },
-    };
+    }
   },
-});
+})
 
 // Create a client to send and receive events
 export const inngest = new Inngest({
-  id: "next-pxci-starter",
+  id: 'trial-buddy',
   middleware: [prismaMiddleware],
-});
+})
