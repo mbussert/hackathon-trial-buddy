@@ -5,11 +5,8 @@ import { SignIn } from '@clerk/nextjs'
 
 export default async function Page() {
   return (
-    <>
-      <Navbar />
-      <div className="flex justify-center py-24">
-        <SignIn forceRedirectUrl="/dashboard" />
-      </div>
-    </>
+    <div className="flex justify-center py-24">
+      <SignIn forceRedirectUrl="/dashboard" />
+    </div>
   )
 }

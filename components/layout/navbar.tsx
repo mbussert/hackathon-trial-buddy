@@ -9,7 +9,7 @@ export function Navbar() {
       <header className="container flex justify-between  h-16 items-center bg-background">
         <nav className="flex font-medium items-center">
           <Link href="/" className="flex items-center gap-2 text-2xl font-black">
-            Trial-Buddy
+            Trial Buddy
           </Link>
         </nav>
         <div className="flex flex-col items-center">
@@ -20,7 +20,7 @@ export function Navbar() {
               </SignInButton>
             </SignedOut>
           </div>
-          <div className="w-full flex flex-row gap-4 items-center">
+          <div className="w-full flex flex-row gap-8 items-center">
             <SignedIn>
               <Link
                 href="/dashboard"

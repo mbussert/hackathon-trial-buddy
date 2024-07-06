@@ -5,6 +5,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 import '../../styles/globals.css'
 
 import { cn } from '@/lib/utils'
+import Sidebar from '@/components/dashboard/sidebar'
+import DashboardNav from '@/components/dashboard/dashboard-nav'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -25,7 +27,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ClerkProvider>
         <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-          {children}
+          <div className="flex min-h-screen w-full flex-col bg-background">
+            <Sidebar />
+            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+              <DashboardNav />
+              <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
+                {children}
+              </main>
+            </div>
+          </div>
         </body>
       </ClerkProvider>
     </html>

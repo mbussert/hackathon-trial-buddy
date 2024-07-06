@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import '../../styles/globals.css'
 
 import { cn } from '@/lib/utils'
+import { Navbar } from '@/components/layout/navbar'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ClerkProvider>
         <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+          <Navbar />
           {children}
         </body>
       </ClerkProvider>
