@@ -1,6 +1,5 @@
 'use server'
 
-import { Navbar } from '@/components/layout/navbar'
 import { SignUp } from '@clerk/nextjs'
 
 export default async function Page() {

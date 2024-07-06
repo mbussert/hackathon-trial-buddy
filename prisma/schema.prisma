@@ -1,14 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-
-  // Enable if using driver adapters
-  // previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -18,12 +9,55 @@ datasource db {
 }
 
 model messages {
-  text   String
-  author String
-
-  // xata fields
+  text           String
+  author         String
   xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
   xata_id        String   @unique(map: "_pgroll_users_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model users {
+  id             String   @id @unique
+  email          String   @unique
+  first_name     String
+  last_name      String
+  xata_version   Int      @default(0)
+  xata_createdat DateTime @default(now()) @db.Timestamptz(6)
+  xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
+  xata_id        String   @unique(map: "users__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+}
+
+model cases {
+  id             String        @id @unique @default(uuid())
+  caseNumber     String
+  createdAt      DateTime      @default(now()) @db.Timestamptz(6)
+  fileHash       String
+  fileUrl        String
+  owner          String
+  xata_id        String        @unique(map: "cases__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version   Int           @default(0)
+  xata_createdat DateTime      @default(now()) @db.Timestamptz(6)
+  xata_updatedat DateTime      @default(now()) @db.Timestamptz(6)
+  summary        case_summary?
+}
+
+model case_summary {
+  id                Int      @id @unique @default(autoincrement())
+  analysis          String
+  backgroundFacts   String
+  authoringJudges   String[]
+  caseNumber        String
+  court             String
+  plaintiffs        String[]
+  defendants        String[]
+  jurisdiction      String
+  courtHoldings     String[]
+  lowerCourtHolding String
+  caseId            String   @unique
+  xata_id           String   @unique(map: "case_summary__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version      Int      @default(0)
+  xata_createdat    DateTime @default(now()) @db.Timestamptz(6)
+  xata_updatedat    DateTime @default(now()) @db.Timestamptz(6)
+  case              cases    @relation(fields: [caseId], references: [id])
 }
