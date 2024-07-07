@@ -1,31 +1,30 @@
+'use client'
+
+import _ from 'lodash'
 import Link from 'next/link'
 import { UserButton } from '@clerk/nextjs'
+import { usePathname } from 'next/navigation'
+import { PanelLeft, Search, Settings } from 'lucide-react'
 
-import {
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  PanelLeft,
-  Search,
-  ShoppingCart,
-  Users2,
-} from 'lucide-react'
-
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '../ui/breadcrumb'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
+import { NavLinks } from './sidebar'
 import HeaderBreadcrumb from './header-breadcrumb'
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '../ui/sheet'
+import { cn } from '@/lib/utils'
 
 export default function DashboardNav() {
+  const pathname = usePathname()
+  const isActive = (path: string) => path === pathname
+
+  const sideNavLinks = [
+    ...NavLinks,
+    {
+      name: 'Settings',
+      path: '/dashboard/settings',
+      icon: <Settings className="h-5 w-5" />,
+    },
+  ]
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Sheet>
@@ -35,47 +34,31 @@ export default function DashboardNav() {
             <span className="sr-only">Toggle Menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="sm:max-w-xs">
+        <SheetContent side="right" className="sm:max-w-xs">
           <nav className="grid gap-6 text-lg font-medium">
             <Link
-              href="#"
+              href="/dashboard"
               className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
             >
-              <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-              <span className="sr-only">Acme Inc</span>
+              <h1>TB</h1>
             </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <Home className="h-5 w-5" />
-              Dashboard
-            </Link>
-            <Link href="#" className="flex items-center gap-4 px-2.5 text-foreground">
-              <ShoppingCart className="h-5 w-5" />
-              Orders
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <Package className="h-5 w-5" />
-              Products
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <Users2 className="h-5 w-5" />
-              Customers
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <LineChart className="h-5 w-5" />
-              Settings
-            </Link>
+            {_.map(sideNavLinks, navLink => {
+              return (
+                <SheetClose asChild>
+                  <Link
+                    key={navLink.name}
+                    href={navLink.path}
+                    className={cn(
+                      'flex items-center gap-4 px-2.5 hover:text-foreground',
+                      isActive(navLink.path) ? 'text-foreground' : 'text-muted-foreground',
+                    )}
+                  >
+                    {navLink.icon}
+                    {navLink.name}
+                  </Link>
+                </SheetClose>
+              )
+            })}
           </nav>
         </SheetContent>
       </Sheet>
