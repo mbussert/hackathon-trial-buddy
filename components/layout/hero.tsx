@@ -22,11 +22,11 @@ export default function Hero() {
       />
       <div
         aria-hidden="true"
-        className="flex absolute -top-96 start-1/2 transform -translate-x-1/2 opacity-80"
+        className="flex absolute -top-96 start-1/2 transform -translate-x-1/2"
       >
         <div className="bg-gradient-to-r from-sky-500 to-background blur-3xl w-[25rem] h-[44rem] rotate-[-60deg] transform -translate-x-[10rem]" />
-        <div className="bg-gradient-to-tl blur-3xl w-[100rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-sky-200 via-sky-200 to-sky-500 opacity-50" />
-        <div className="bg-gradient-to-tr blur-3xl w-[90rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-sky-200 via-sky-200 to-sky-500 opacity-50" />
+        <div className="bg-gradient-to-tl blur-3xl w-[100rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-sky-200 via-sky-200 to-sky-500 opacity-60" />
+        <div className="bg-gradient-to-tr blur-3xl w-[90rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-sky-200 via-sky-200 to-sky-500 opacity-60" />
       </div>
 
       <div

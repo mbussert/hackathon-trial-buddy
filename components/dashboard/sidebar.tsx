@@ -1,18 +1,27 @@
+'use client'
+
+import _ from 'lodash'
 import Link from 'next/link'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
-import {
-  BriefcaseBusiness,
-  Home,
-  LineChart,
-  Package,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from 'lucide-react'
+import { BriefcaseBusiness, Home, LineChart, Package, Settings, Users2 } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 export default function Sidebar() {
+  const pathname = usePathname()
+  const isActive = (path: string) => path === pathname
+
+  const NavLinks = [
+    { name: 'Home', path: '/dashboard', icon: <Home className="h-5 w-5" /> },
+    {
+      name: 'My Cases',
+      path: '/dashboard/cases',
+      icon: <BriefcaseBusiness className="h-5 w-5" />,
+    },
+  ]
+
   return (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r sm:flex">
       <TooltipProvider>
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link
@@ -21,73 +30,39 @@ export default function Sidebar() {
           >
             <h1>TB</h1>
           </Link>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/dashboard"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <Home className="h-5 w-5" />
-                <span className="sr-only">Dashboard Home</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Home</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/dashboard/cases"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <BriefcaseBusiness className="h-5 w-5" />
-                <span className="sr-only">My Cases</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">My Cases</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <Package className="h-5 w-5" />
-                <span className="sr-only">Products</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Products</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <Users2 className="h-5 w-5" />
-                <span className="sr-only">Customers</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Customers</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <LineChart className="h-5 w-5" />
-                <span className="sr-only">Analytics</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Analytics</TooltipContent>
-          </Tooltip>
+          {_.map(NavLinks, navLink => {
+            return (
+              <Tooltip key={navLink.name}>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={navLink.path}
+                    className={cn(
+                      'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
+                      isActive(navLink.path)
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-muted-foreground',
+                    )}
+                  >
+                    {navLink.icon}
+                    <span className="sr-only">{navLink.name}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">{navLink.name}</TooltipContent>
+              </Tooltip>
+            )
+          })}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                href="/dashboard/settings"
+                className={cn(
+                  'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
+                  isActive('/dashboard/settings')
+                    ? 'bg-accent text-accent-foreground'
+                    : 'text-muted-foreground',
+                )}
               >
                 <Settings className="h-5 w-5" />
                 <span className="sr-only">Settings</span>
