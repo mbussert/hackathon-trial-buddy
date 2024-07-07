@@ -4,6 +4,7 @@ import { ClientTable } from './client-table'
 import { columns, Payment } from './client-columns'
 
 import { Button } from '@/components/ui/button'
+import { NewClientModal } from './new-client-modal'
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
@@ -32,7 +33,7 @@ export default async function ClientsPage() {
         <div>
           <h1 className="text-2xl font-bold">Clients</h1>
         </div>
-        <Button>New Client</Button>
+        <NewClientModal />
       </header>
       <div className="mt-6">
         <ClientTable columns={columns} data={data} />
