@@ -22,11 +22,11 @@ model users {
   email          String   @unique
   first_name     String
   last_name      String
+  clients        client[]
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
   xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
   xata_id        String   @unique(map: "users__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
-  clients        clients?
 }
 
 model cases {
@@ -63,16 +63,16 @@ model case_summary {
   case              cases    @relation(fields: [caseId], references: [id])
 }
 
-model clients {
-  id         String   @id @unique @default(uuid())
-  createdAt  DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt  DateTime @default(now()) @db.Timestamptz(6)
-  first_name String
-  last_name  String
-  email      String   @unique
-  telephone  String
-  user       users    @relation(fields: [id], references: [id])
-
+model client {
+  id             String   @id @unique @default(uuid())
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @db.Timestamptz(6)
+  first_name     String
+  last_name      String
+  email          String   @unique
+  telephone      String
+  attorney       users    @relation(fields: [attorneyId], references: [id])
+  attorneyId     String
   xata_id        String   @unique(map: "clients__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
