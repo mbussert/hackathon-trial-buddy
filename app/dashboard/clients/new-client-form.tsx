@@ -22,6 +22,7 @@ import { Button } from '@/components/ui/button'
 
 import createNewClient from './actions'
 import { newClientFormSchema } from './form-schema'
+import { useUser } from '@clerk/nextjs'
 
 type NewClientFormProps = {
   className?: string
@@ -29,16 +30,19 @@ type NewClientFormProps = {
 }
 
 export default function NewClientForm({ className, onSuccess }: NewClientFormProps) {
-  const [state, formAction] = useFormState(createNewClient, { message: '', error: false })
+  const { user } = useUser()
+  const userId = user?.id || ''
+  const createNewClientWithId = createNewClient.bind(null, userId)
+  const [state, formAction] = useFormState(createNewClientWithId, { message: '', error: false })
   const { pending } = useFormStatus()
 
   const form = useForm<z.output<typeof newClientFormSchema>>({
     resolver: zodResolver(newClientFormSchema),
     defaultValues: {
-      firstname: state?.fields?.firstname || '',
-      lastname: state?.fields?.lastname || '',
+      first_name: state?.fields?.first_name || '',
+      last_name: state?.fields?.last_name || '',
       email: state?.fields?.email || '',
-      phonenumber: state?.fields?.phonenumber || '',
+      telephone: state?.fields?.telephone || '',
     },
     mode: 'all',
   })
@@ -46,7 +50,7 @@ export default function NewClientForm({ className, onSuccess }: NewClientFormPro
   React.useEffect(() => {
     if (state?.message) {
       if (state?.error) {
-        toast.error(state.message)
+        toast.error(state.message, { id: 'newClientError' })
       } else {
         onSuccess()
         toast.success(state.message, { id: 'newClientCreated' })
@@ -59,7 +63,7 @@ export default function NewClientForm({ className, onSuccess }: NewClientFormPro
       <form action={formAction} className={cn('grid items-start gap-4', className)}>
         <FormField
           control={form.control}
-          name="firstname"
+          name="first_name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>First Name</FormLabel>
@@ -72,7 +76,7 @@ export default function NewClientForm({ className, onSuccess }: NewClientFormPro
         />
         <FormField
           control={form.control}
-          name="lastname"
+          name="last_name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Last Name</FormLabel>
@@ -98,7 +102,7 @@ export default function NewClientForm({ className, onSuccess }: NewClientFormPro
         />
         <FormField
           control={form.control}
-          name="phonenumber"
+          name="telephone"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Phone Number</FormLabel>

@@ -10,11 +10,19 @@ export type FormState = {
 }
 
 export default async function createNewClient(
+  userId: string,
   _prevStat: FormState,
   data: FormData,
 ): Promise<FormState> {
   const formData = Object.fromEntries(data)
   const parsedData = newClientFormSchema.safeParse(formData)
+
+  if (!userId) {
+    return {
+      message: 'No user found. Please try again.',
+      error: true,
+    }
+  }
 
   if (!parsedData.success) {
     const fields: Record<string, string> = {}
@@ -28,12 +36,16 @@ export default async function createNewClient(
     }
   }
 
+  const { first_name, last_name, email, telephone } = parsedData.data
+
   // const newClient = await prisma.client.create({
   //   data: { first_name, last_name, email, telephone, attorneyId: userId },
   // })
 
+  // console.log('New Client: ', newClient)
+
   return {
-    message: `${parsedData.data.firstname} ${parsedData.data.lastname} successfully created!`,
+    message: `${parsedData.data.first_name} ${parsedData.data.last_name} successfully created!`,
     error: false,
   }
 }
