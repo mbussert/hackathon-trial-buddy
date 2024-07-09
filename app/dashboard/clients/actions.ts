@@ -2,6 +2,7 @@
 
 import { prisma } from '@/prisma/client'
 import { newClientFormSchema } from './form-schema'
+import { revalidatePath } from 'next/cache'
 
 export type FormState = {
   message: string
@@ -38,11 +39,23 @@ export default async function createNewClient(
 
   const { first_name, last_name, email, telephone } = parsedData.data
 
-  // const newClient = await prisma.client.create({
-  //   data: { first_name, last_name, email, telephone, attorneyId: userId },
-  // })
+  await prisma.users.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      clients: {
+        create: {
+          first_name,
+          last_name,
+          email,
+          telephone,
+        },
+      },
+    },
+  })
 
-  // console.log('New Client: ', newClient)
+  revalidatePath('/dashboard/clients')
 
   return {
     message: `${parsedData.data.first_name} ${parsedData.data.last_name} successfully created!`,

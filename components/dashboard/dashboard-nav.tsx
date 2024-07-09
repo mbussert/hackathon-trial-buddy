@@ -44,9 +44,8 @@ export default function DashboardNav() {
             </Link>
             {_.map(sideNavLinks, navLink => {
               return (
-                <SheetClose asChild>
+                <SheetClose key={navLink.name} asChild>
                   <Link
-                    key={navLink.name}
                     href={navLink.path}
                     className={cn(
                       'flex items-center gap-4 px-2.5 hover:text-foreground',
