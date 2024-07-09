@@ -45,7 +45,7 @@ export function NewClientModal() {
             <DialogTitle>New Client</DialogTitle>
             <DialogDescription>Complete all required fields to add a new client.</DialogDescription>
           </DialogHeader>
-          <NewClientForm />
+          <NewClientForm onSuccess={() => setOpen(false)} />
         </DialogContent>
       </Dialog>
     )
@@ -61,7 +61,7 @@ export function NewClientModal() {
           <DrawerTitle>New Client</DrawerTitle>
           <DrawerDescription>Complete all required fields to add a new client.</DrawerDescription>
         </DrawerHeader>
-        <NewClientForm className="px-4" />
+        <NewClientForm className="px-4" onSuccess={() => setOpen(false)} />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>

@@ -2,8 +2,11 @@
 
 import * as React from 'react'
 import { z } from 'zod'
+import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useFormState, useFormStatus } from 'react-dom'
 
 import {
   Form,
@@ -17,42 +20,43 @@ import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-const newClientFormSchema = z.object({
-  firstname: z
-    .string()
-    .min(1, { message: 'First Name must be at least 1 character.' })
-    .max(50, { message: 'First Name must be less than 50 characters.' })
-    .trim(),
-  lastname: z
-    .string()
-    .min(1, { message: 'Last Name must be at least 1 character.' })
-    .max(50, { message: 'Last Name must be less than 50 characters.' })
-    .trim(),
-  email: z.string().email({ message: 'Please enter a valid email address.' }).trim(),
-  phonenumber: z.string().min(7, { message: 'Phone Number must be at least 7 digits.' }).trim(),
-})
+import createNewClient from './actions'
+import { newClientFormSchema } from './form-schema'
 
-export default function NewClientForm({ className }: React.ComponentProps<'form'>) {
-  const form = useForm<z.infer<typeof newClientFormSchema>>({
+type NewClientFormProps = {
+  className?: string
+  onSuccess: () => void
+}
+
+export default function NewClientForm({ className, onSuccess }: NewClientFormProps) {
+  const [state, formAction] = useFormState(createNewClient, { message: '', error: false })
+  const { pending } = useFormStatus()
+
+  const form = useForm<z.output<typeof newClientFormSchema>>({
     resolver: zodResolver(newClientFormSchema),
     defaultValues: {
-      firstname: '',
-      lastname: '',
-      email: '',
-      phonenumber: '',
+      firstname: state?.fields?.firstname || '',
+      lastname: state?.fields?.lastname || '',
+      email: state?.fields?.email || '',
+      phonenumber: state?.fields?.phonenumber || '',
     },
+    mode: 'all',
   })
 
-  function onSubmit(values: z.infer<typeof newClientFormSchema>) {
-    console.log('Values: ', values)
-  }
+  React.useEffect(() => {
+    if (state?.message) {
+      if (state?.error) {
+        toast.error(state.message)
+      } else {
+        onSuccess()
+        toast.success(state.message, { id: 'newClientCreated' })
+      }
+    }
+  }, [state, onSuccess])
 
   return (
     <Form {...form}>
-      <form
-        className={cn('grid items-start gap-4', className)}
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form action={formAction} className={cn('grid items-start gap-4', className)}>
         <FormField
           control={form.control}
           name="firstname"
@@ -105,7 +109,9 @@ export default function NewClientForm({ className }: React.ComponentProps<'form'
             </FormItem>
           )}
         />
-        <Button type="submit">Add New Client</Button>
+        <Button disabled={!form.formState.isValid || pending} type="submit">
+          {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Add New Client'}
+        </Button>
       </form>
     </Form>
   )
