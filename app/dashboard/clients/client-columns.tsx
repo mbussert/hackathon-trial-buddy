@@ -3,7 +3,6 @@
 import { ColumnDef, FilterFn } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
@@ -13,20 +12,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Client } from '@/types'
+import Link from 'next/link'
+import { deleteClient } from './actions'
+import { toast } from 'sonner'
 
-export type Payment = {
-  id: string
-  amount: number
-  status: 'pending' | 'processing' | 'success' | 'failed'
-  email: string
-}
-
-const multiColumnFilterFn: FilterFn<Payment> = (row, columnId, filterValue) => {
-  const searchableRowContent = `${row.original.amount} ${row.original.status} ${row.original.email} ${row.original.id}`
+const multiColumnFilterFn: FilterFn<Client> = (row, columnId, filterValue) => {
+  const searchableRowContent = `${row.original.first_name} ${row.original.last_name} ${row.original.email} ${row.original.id} ${row.original.telephone}`
   return searchableRowContent.toLowerCase().includes(filterValue.toLowerCase())
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Client>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -49,8 +45,8 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
+    header: 'Name',
+    accessorFn: row => `${row.first_name} ${row.last_name}`,
   },
   {
     accessorKey: 'email',
@@ -68,23 +64,20 @@ export const columns: ColumnDef<Payment>[] = [
     filterFn: multiColumnFilterFn,
   },
   {
-    accessorKey: 'amount',
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'))
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
+    accessorKey: 'telephone',
+    header: 'Telephone',
   },
   {
     id: 'actions',
     cell: ({ row }) => {
-      const payment = row.original
-
+      const handleDeleteClient = async () => {
+        const response = await deleteClient(row.original.id)
+        if (!response.error) {
+          toast.success(response.message)
+        } else {
+          toast.error(response.message)
+        }
+      }
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -95,12 +88,11 @@ export const columns: ColumnDef<Payment>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
-              Copy payment ID
+            <DropdownMenuItem asChild>
+              <Link href={`/dashboard/clients/${row.original.id}`}>View Client</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDeleteClient}>Delete Client</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

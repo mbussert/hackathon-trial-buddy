@@ -30,13 +30,14 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/dashboard/pagination'
+import { Client } from '@/types'
 
-interface ClientTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+interface ClientTableProps<Client, TValue> {
+  columns: ColumnDef<Client, TValue>[]
+  data: Client[]
 }
 
-export function ClientTable<TData, TValue>({ columns, data }: ClientTableProps<TData, TValue>) {
+export function ClientTable<Client, TValue>({ columns, data }: ClientTableProps<Client, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -126,7 +127,7 @@ export function ClientTable<TData, TValue>({ columns, data }: ClientTableProps<T
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  No clients found.
                 </TableCell>
               </TableRow>
             )}

@@ -1,8 +1,8 @@
 'use server'
 
-import { prisma } from '@/prisma/client'
+import prisma from '@/prisma/client'
 import { newClientFormSchema } from './form-schema'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 export type FormState = {
   message: string
@@ -10,7 +10,7 @@ export type FormState = {
   fields?: Record<string, string>
 }
 
-export default async function createNewClient(
+export async function createNewClient(
   userId: string,
   _prevStat: FormState,
   data: FormData,
@@ -56,9 +56,28 @@ export default async function createNewClient(
   })
 
   revalidatePath('/dashboard/clients')
+  revalidateTag('clients')
 
   return {
     message: `${parsedData.data.first_name} ${parsedData.data.last_name} successfully created!`,
+    error: false,
+  }
+}
+
+export async function deleteClient(clientId: string): Promise<FormState> {
+  if (!clientId) {
+    return {
+      message: 'No client ID provided. Please try again.',
+      error: true,
+    }
+  }
+
+  const client = await prisma.client.delete({ where: { id: clientId } })
+
+  revalidatePath('/dashboard/clients')
+
+  return {
+    message: `${client.first_name} ${client.last_name} has been successfully deleted!`,
     error: false,
   }
 }

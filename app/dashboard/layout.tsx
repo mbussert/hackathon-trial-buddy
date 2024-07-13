@@ -8,6 +8,7 @@ import '../../styles/globals.css'
 import { cn } from '@/lib/utils'
 import Sidebar from '@/components/dashboard/sidebar'
 import DashboardNav from '@/components/dashboard/dashboard-nav'
+import ReactQueryProvider from '@/components/react-query-provider'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -28,14 +29,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ClerkProvider>
         <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-          <div className="flex min-h-screen w-full flex-col bg-background">
-            <Sidebar />
-            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-              <DashboardNav />
-              <main>{children}</main>
+          <ReactQueryProvider>
+            <div className="flex min-h-screen w-full flex-col bg-background">
+              <Sidebar />
+              <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+                <DashboardNav />
+                <main>{children}</main>
+              </div>
             </div>
-          </div>
-          <Toaster position="top-center" richColors />
+            <Toaster position="top-center" richColors />
+          </ReactQueryProvider>
         </body>
       </ClerkProvider>
     </html>

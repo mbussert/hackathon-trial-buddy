@@ -20,9 +20,10 @@ import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-import createNewClient from './actions'
+import { createNewClient } from './actions'
 import { newClientFormSchema } from './form-schema'
 import { useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 
 type NewClientFormProps = {
   className?: string
@@ -31,6 +32,7 @@ type NewClientFormProps = {
 
 export default function NewClientForm({ className, onSuccess }: NewClientFormProps) {
   const { user } = useUser()
+  const router = useRouter()
   const userId = user?.id || ''
   const createNewClientWithId = createNewClient.bind(null, userId)
   const [state, formAction] = useFormState(createNewClientWithId, { message: '', error: false })
@@ -52,11 +54,12 @@ export default function NewClientForm({ className, onSuccess }: NewClientFormPro
       if (state?.error) {
         toast.error(state.message, { id: 'newClientError' })
       } else {
+        router.refresh()
         onSuccess()
         toast.success(state.message, { id: 'newClientCreated' })
       }
     }
-  }, [state, onSuccess])
+  }, [state, onSuccess, router])
 
   return (
     <Form {...form}>

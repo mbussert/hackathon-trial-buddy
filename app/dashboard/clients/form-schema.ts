@@ -12,5 +12,5 @@ export const newClientFormSchema = z.object({
     .min(1, { message: 'Last Name must be at least 1 character.' })
     .max(50, { message: 'Last Name must be less than 50 characters.' }),
   email: z.string().trim().email({ message: 'Please enter a valid email address.' }),
-  telephone: z.string().trim().min(7, { message: 'Phone Number must be at least 7 digits.' }),
+  telephone: z.string().trim().min(10, { message: 'Phone Number must be at least 10 digits.' }),
 })
