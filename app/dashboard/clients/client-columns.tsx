@@ -91,8 +91,11 @@ export const columns: ColumnDef<Client>[] = [
             <DropdownMenuItem asChild>
               <Link href={`/dashboard/clients/${row.original.id}`}>View Client</Link>
             </DropdownMenuItem>
+            <DropdownMenuItem>New Case</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleDeleteClient}>Delete Client</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-600 " onClick={handleDeleteClient}>
+              Delete Client
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
