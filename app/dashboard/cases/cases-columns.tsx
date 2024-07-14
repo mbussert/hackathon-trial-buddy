@@ -12,18 +12,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Client } from '@/types'
+import { Client, TCase } from '@/types'
 import Link from 'next/link'
-import { deleteClient } from './actions'
 import { toast } from 'sonner'
-import { NewCaseModal } from '../cases/new-case-modal'
 
-const multiColumnFilterFn: FilterFn<Client> = (row, columnId, filterValue) => {
-  const searchableRowContent = `${row.original.first_name} ${row.original.last_name} ${row.original.email} ${row.original.id} ${row.original.telephone}`
+const multiColumnFilterFn: FilterFn<TCase> = (row, columnId, filterValue) => {
+  const searchableRowContent = `${row.original.defendant} ${row.original.case_number} ${row.original.id}`
   return searchableRowContent.toLowerCase().includes(filterValue.toLowerCase())
 }
 
-export const columns: ColumnDef<Client>[] = [
+export const casesColumns: ColumnDef<TCase>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -46,18 +44,18 @@ export const columns: ColumnDef<Client>[] = [
     enableHiding: false,
   },
   {
-    header: 'Name',
-    accessorFn: row => `${row.first_name} ${row.last_name}`,
+    header: 'Case Number',
+    accessorKey: 'case_number',
   },
   {
-    accessorKey: 'email',
+    accessorKey: 'defendant',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Email
+          Defendant
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -71,15 +69,6 @@ export const columns: ColumnDef<Client>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const handleDeleteClient = async () => {
-        const response = await deleteClient(row.original.id)
-        if (!response.error) {
-          toast.success(response.message)
-        } else {
-          toast.error(response.message)
-        }
-      }
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -91,13 +80,11 @@ export const columns: ColumnDef<Client>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/dashboard/clients/${row.original.id}`}>View Client</Link>
+              <Link href={`/dashboard/clients/${row.original.id}`}>View Case</Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600 " onClick={handleDeleteClient}>
-              Delete Client
-            </DropdownMenuItem>
+            <DropdownMenuItem className="text-red-600 ">Delete Case</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

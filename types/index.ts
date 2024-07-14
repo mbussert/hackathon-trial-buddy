@@ -12,3 +12,21 @@ export type Client = {
   xata_createdat: Date
   xata_updatedat: Date
 }
+
+export type TCase = {
+  id: string
+  case_number: string
+  createdAt: Date
+  updatedAt?: Date
+  defendant: string
+  fileHash?: string
+  fileUrl?: string
+  owner?: string
+  clientId: string
+  attorneyId: string
+  summary?: string
+  xata_id: string
+  xata_version: number
+  xata_createdat: Date
+  xata_updatedat: Date
+}
