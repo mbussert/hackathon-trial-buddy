@@ -65,9 +65,9 @@ export function CasesTable<TCase, TValue>({ columns, data }: CasesTableProps<TCa
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search clients..."
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-          onChange={event => table.getColumn('email')?.setFilterValue(event.target.value)}
+          placeholder="Search cases..."
+          value={(table.getColumn('case_number')?.getFilterValue() as string) ?? ''}
+          onChange={event => table.getColumn('case_number')?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>

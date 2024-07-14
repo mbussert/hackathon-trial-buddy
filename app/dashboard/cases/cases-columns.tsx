@@ -1,7 +1,7 @@
 'use client'
 
 import { ColumnDef, FilterFn } from '@tanstack/react-table'
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -12,12 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Client, TCase } from '@/types'
+import { TCase } from '@/types'
 import Link from 'next/link'
 import { toast } from 'sonner'
 
 const multiColumnFilterFn: FilterFn<TCase> = (row, columnId, filterValue) => {
-  const searchableRowContent = `${row.original.defendant} ${row.original.case_number} ${row.original.id}`
+  const searchableRowContent = `${row.original.defendant} ${row.original.case_number} ${row.original.id} ${row.original.client.first_name} ${row.original.client.last_name} ${row.original.client.email}`
   return searchableRowContent.toLowerCase().includes(filterValue.toLowerCase())
 }
 
@@ -46,25 +46,15 @@ export const casesColumns: ColumnDef<TCase>[] = [
   {
     header: 'Case Number',
     accessorKey: 'case_number',
-  },
-  {
-    accessorKey: 'defendant',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Defendant
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
     filterFn: multiColumnFilterFn,
   },
   {
-    accessorKey: 'telephone',
-    header: 'Telephone',
+    accessorFn: row => `${row.client.first_name} ${row.client.last_name}`,
+    header: 'Client',
+  },
+  {
+    accessorKey: 'defendant',
+    header: 'Defendant',
   },
   {
     id: 'actions',
@@ -80,7 +70,7 @@ export const casesColumns: ColumnDef<TCase>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/dashboard/clients/${row.original.id}`}>View Case</Link>
+              <Link href={`/dashboard/cases/${row.original.id}`}>View Case</Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />

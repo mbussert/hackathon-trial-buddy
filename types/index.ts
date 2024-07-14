@@ -22,6 +22,7 @@ export type TCase = {
   fileHash?: string
   fileUrl?: string
   owner?: string
+  client: Client
   clientId: string
   attorneyId: string
   summary?: string

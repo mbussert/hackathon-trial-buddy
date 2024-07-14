@@ -26,6 +26,9 @@ async function getCasesData(userId: string): Promise<any[]> {
       where: {
         attorneyId: userId,
       },
+      include: {
+        client: true,
+      },
     })
     return userCases
   } catch (error: any) {
