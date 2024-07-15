@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_ec251d67ee2330",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE clients DROP CONSTRAINT clients_id_fkey"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_ec251d67ee2330",
+  "parent": "sql_05a769a3537d43",
+  "schema": "public",
+  "startedAt": "2024-07-07T23:46:31.262082Z"
+}

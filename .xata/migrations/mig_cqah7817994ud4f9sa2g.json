@@ -1,0 +1,30 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cqah7817994ud4f9sa2g",
+    "operations": [
+      {
+        "add_column": {
+          "table": "case_docs",
+          "column": {
+            "pk": false,
+            "name": "type",
+            "type": "text",
+            "check": {
+              "name": "case_docs_xata_string_length_type",
+              "constraint": "LENGTH(\"type\") <= 2048"
+            },
+            "unique": false,
+            "comment": "{\"xata.type\":\"string\"}",
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cqah7817994ud4f9sa2g",
+  "parent": "sql_6d6511dbf3d74a",
+  "schema": "public",
+  "startedAt": "2024-07-15T12:18:40.572533Z"
+}

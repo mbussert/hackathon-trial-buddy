@@ -15,9 +15,13 @@ import {
 import { TCase } from '@/types'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 const multiColumnFilterFn: FilterFn<TCase> = (row, columnId, filterValue) => {
-  const searchableRowContent = `${row.original.defendant} ${row.original.case_number} ${row.original.id} ${row.original.client.first_name} ${row.original.client.last_name} ${row.original.client.email}`
+  const plaintiffs = row.original.plaintiffs.join(' ')
+  const defendants = row.original.defendants.join(' ')
+
+  const searchableRowContent = `${plaintiffs} ${defendants} ${row.original.court} ${row.original.case_number} ${row.original.id} ${row.original.client.first_name} ${row.original.client.last_name} ${row.original.client.email}`
   return searchableRowContent.toLowerCase().includes(filterValue.toLowerCase())
 }
 
@@ -53,8 +57,62 @@ export const casesColumns: ColumnDef<TCase>[] = [
     header: 'Client',
   },
   {
-    accessorKey: 'defendant',
-    header: 'Defendant',
+    accessorKey: 'plaintiffs',
+    header: 'Plaintiff(s)',
+    cell: ({ row }) => {
+      const plaintiffsArr: string[] = row.original.plaintiffs
+      let displayValue = plaintiffsArr[0]
+
+      if (plaintiffsArr.length > 1) {
+        displayValue = `${plaintiffsArr[0]}, et al.`
+      }
+
+      return plaintiffsArr.length > 1 ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <p>{displayValue}</p>
+            </TooltipTrigger>
+            <TooltipContent>
+              {row.original.plaintiffs.map((plaintiff, index) => {
+                return <p key={plaintiff + index}>{plaintiff}</p>
+              })}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        <p>{displayValue}</p>
+      )
+    },
+  },
+  {
+    accessorKey: 'defendants',
+    header: 'Defendant(s)',
+    cell: ({ row }) => {
+      const defendantsArr: string[] = row.original.defendants
+      let displayValue = defendantsArr[0]
+
+      if (defendantsArr.length > 1) {
+        displayValue = `${defendantsArr[0]}, et al.`
+      }
+
+      return defendantsArr.length > 1 ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <p>{displayValue}</p>
+            </TooltipTrigger>
+            <TooltipContent>
+              {row.original.defendants.map((defendant, index) => {
+                return <p key={defendant + index}>{defendant}</p>
+              })}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        <p>{displayValue}</p>
+      )
+    },
   },
   {
     id: 'actions',

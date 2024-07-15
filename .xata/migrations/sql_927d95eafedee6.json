@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_927d95eafedee6",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE case_files ADD CONSTRAINT \"case_files_caseId_fkey\" FOREIGN KEY (\"caseId\") REFERENCES cases (id) ON UPDATE CASCADE ON DELETE CASCADE"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_927d95eafedee6",
+  "parent": "sql_fc026c1990d51e",
+  "schema": "public",
+  "startedAt": "2024-07-15T01:42:04.751718Z"
+}

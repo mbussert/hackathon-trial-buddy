@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_dfb0ce1a2bdff9",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE UNIQUE INDEX users_id_key ON users USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_dfb0ce1a2bdff9",
+  "parent": "sql_924ee66bd41796",
+  "schema": "public",
+  "startedAt": "2024-07-06T13:22:14.369029Z"
+}

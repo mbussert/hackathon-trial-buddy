@@ -60,11 +60,11 @@ export default function NewCaseForm({ className, onSuccess, clients }: NewCaseFo
   React.useEffect(() => {
     if (state?.message) {
       if (state?.error) {
-        toast.error(state.message, { id: 'newClientError' })
+        toast.error(state.message, { id: 'newCaseError' })
       } else {
         router.refresh()
         onSuccess()
-        toast.success(state.message, { id: 'newClientCreated' })
+        toast.success(state.message, { id: 'newCaseCreated' })
       }
     }
   }, [state, onSuccess, router])

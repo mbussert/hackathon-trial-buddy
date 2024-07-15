@@ -1,0 +1,78 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cq4kg47pgrgdcludc33g",
+    "operations": [
+      {
+        "set_replica_identity": {
+          "table": "cases",
+          "identity": {
+            "type": "full",
+            "index": ""
+          }
+        }
+      },
+      {
+        "add_column": {
+          "table": "cases",
+          "column": {
+            "name": "xata_id",
+            "type": "text",
+            "check": {
+              "name": "cases_xata_id_length_xata_id",
+              "constraint": "length(\"xata_id\") < 256"
+            },
+            "unique": true,
+            "default": "'rec_' || xata_private.xid()",
+            "nullable": false
+          }
+        }
+      },
+      {
+        "add_column": {
+          "table": "cases",
+          "column": {
+            "name": "xata_version",
+            "type": "integer",
+            "default": "0",
+            "nullable": false
+          }
+        }
+      },
+      {
+        "add_column": {
+          "table": "cases",
+          "column": {
+            "name": "xata_createdat",
+            "type": "timestamptz",
+            "default": "now()",
+            "nullable": false
+          }
+        }
+      },
+      {
+        "add_column": {
+          "up": "now()",
+          "table": "cases",
+          "column": {
+            "name": "xata_updatedat",
+            "type": "timestamptz",
+            "default": "now()",
+            "nullable": false
+          }
+        }
+      },
+      {
+        "sql": {
+          "up": "CREATE TRIGGER xata_maintain_metadata_trigger_pgroll\n  BEFORE INSERT OR UPDATE\n  ON \"cases\"\n  FOR EACH ROW\n  EXECUTE FUNCTION xata_private.maintain_metadata_trigger_pgroll()",
+          "onComplete": true
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cq4kg47pgrgdcludc33g",
+  "parent": "mig_cq4kfofarnk9e285t6rg",
+  "schema": "public",
+  "startedAt": "2024-07-06T13:35:12.927163Z"
+}

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_c8b347a8be8def",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE case_summary ADD CONSTRAINT \"case_summary_caseId_fkey\" FOREIGN KEY (\"caseId\") REFERENCES cases (id) ON UPDATE CASCADE ON DELETE RESTRICT"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_c8b347a8be8def",
+  "parent": "sql_dd6f2cb8f7268c",
+  "schema": "public",
+  "startedAt": "2024-07-06T13:22:14.676059Z"
+}

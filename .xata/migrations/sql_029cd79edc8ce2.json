@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_029cd79edc8ce2",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE cases ADD CONSTRAINT \"cases_clientId_fkey\" FOREIGN KEY (\"clientId\") REFERENCES client (id) ON UPDATE CASCADE ON DELETE CASCADE"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_029cd79edc8ce2",
+  "parent": "sql_670b0c34dc594f",
+  "schema": "public",
+  "startedAt": "2024-07-13T19:24:56.50998Z"
+}

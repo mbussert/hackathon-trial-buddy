@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_6b823b8eb06837",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE cases ALTER COLUMN \"fileHash\" DROP NOT NULL, ALTER COLUMN \"fileUrl\" DROP NOT NULL, ALTER COLUMN owner DROP NOT NULL"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_6b823b8eb06837",
+  "parent": "sql_029cd79edc8ce2",
+  "schema": "public",
+  "startedAt": "2024-07-14T13:10:54.542457Z"
+}

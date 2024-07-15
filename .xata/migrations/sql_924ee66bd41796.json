@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_924ee66bd41796",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE TABLE case_summary (id serial NOT NULL, analysis text NOT NULL, \"backgroundFacts\" text NOT NULL, \"authoringJudges\" text[], \"caseNumber\" text NOT NULL, court text NOT NULL, plaintiffs text[], defendants text[], jurisdiction text NOT NULL, \"courtHoldings\" text[], \"lowerCourtHolding\" text NOT NULL, \"caseId\" text NOT NULL, CONSTRAINT case_summary_pkey PRIMARY KEY (id))"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_924ee66bd41796",
+  "parent": "sql_94334d61e3e0f9",
+  "schema": "public",
+  "startedAt": "2024-07-06T13:22:14.111427Z"
+}

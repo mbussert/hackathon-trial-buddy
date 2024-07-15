@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_670b0c34dc594f",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE cases ADD COLUMN \"clientId\" text NOT NULL"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_670b0c34dc594f",
+  "parent": "sql_344f22242ee68f",
+  "schema": "public",
+  "startedAt": "2024-07-13T19:24:56.268361Z"
+}

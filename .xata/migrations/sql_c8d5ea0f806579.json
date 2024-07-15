@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_c8d5ea0f806579",
+    "operations": [
+      {
+        "sql": {
+          "up": "DROP INDEX case_files_id_key"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_c8d5ea0f806579",
+  "parent": "mig_cqah2qep9nttc8i6k0gg",
+  "schema": "public",
+  "startedAt": "2024-07-15T12:16:58.209524Z"
+}

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_87dbbd77a4c60b",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE cases ADD COLUMN defendant text NOT NULL"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_87dbbd77a4c60b",
+  "parent": "sql_6b823b8eb06837",
+  "schema": "public",
+  "startedAt": "2024-07-14T13:12:28.597784Z"
+}

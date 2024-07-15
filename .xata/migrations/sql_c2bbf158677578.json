@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_c2bbf158677578",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE UNIQUE INDEX \"clients_userId_key\" ON clients USING btree (\"userId\")"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_c2bbf158677578",
+  "parent": "sql_ec251d67ee2330",
+  "schema": "public",
+  "startedAt": "2024-07-07T23:46:31.522494Z"
+}

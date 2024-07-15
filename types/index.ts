@@ -18,7 +18,9 @@ export type TCase = {
   case_number: string
   createdAt: Date
   updatedAt?: Date
-  defendant: string
+  defendants: string[]
+  plaintiffs: string[]
+  court?: string
   fileHash?: string
   fileUrl?: string
   owner?: string

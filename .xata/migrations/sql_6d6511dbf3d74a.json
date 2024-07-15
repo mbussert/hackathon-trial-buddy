@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_6d6511dbf3d74a",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE UNIQUE INDEX case_files_id_key ON case_files USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_6d6511dbf3d74a",
+  "parent": "sql_c8d5ea0f806579",
+  "schema": "public",
+  "startedAt": "2024-07-15T12:17:39.415772Z"
+}

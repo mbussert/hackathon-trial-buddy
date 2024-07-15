@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_4469a08e91f6a6",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE client ALTER COLUMN \"attorneyId\" SET NOT NULL"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_4469a08e91f6a6",
+  "parent": "sql_fcfae7d8c52b59",
+  "schema": "public",
+  "startedAt": "2024-07-09T02:04:53.667523Z"
+}

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_1e41abc0757bfe",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE TABLE messages (text text NOT NULL, author text NOT NULL, xata_updatedat timestamptz(6) NOT NULL DEFAULT current_timestamp, xata_id text NOT NULL DEFAULT 'rec_'::text || xata_private.xid()::text, xata_version int NOT NULL DEFAULT 0, xata_createdat timestamptz(6) NOT NULL DEFAULT current_timestamp)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_1e41abc0757bfe",
+  "parent": "mig_cq4135npgrgdcludbrsg",
+  "schema": "public",
+  "startedAt": "2024-07-05T15:44:38.785676Z"
+}

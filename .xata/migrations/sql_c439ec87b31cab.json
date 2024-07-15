@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_c439ec87b31cab",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE TABLE case_files (id text NOT NULL, \"createdAt\" timestamptz(6) NOT NULL DEFAULT current_timestamp, \"updatedAt\" timestamptz(6) NOT NULL DEFAULT current_timestamp, type text, \"caseId\" text NOT NULL, \"fileName\" text NOT NULL, extension text NOT NULL, summarized boolean NOT NULL DEFAULT false, summary text, xata_id text NOT NULL DEFAULT 'rec_'::text || xata_private.xid()::text, xata_version int NOT NULL DEFAULT 0, xata_createdat timestamptz(6) NOT NULL DEFAULT current_timestamp, xata_updatedat timestamptz(6) NOT NULL DEFAULT current_timestamp, CONSTRAINT case_files_pkey PRIMARY KEY (id))"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_c439ec87b31cab",
+  "parent": "sql_5bceb43af41715",
+  "schema": "public",
+  "startedAt": "2024-07-15T01:42:04.31338Z"
+}

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_4d998cf89db8ab",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE client ADD CONSTRAINT \"client_attorneyId_fkey\" FOREIGN KEY (\"attorneyId\") REFERENCES users (id) ON UPDATE CASCADE ON DELETE RESTRICT"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_4d998cf89db8ab",
+  "parent": "sql_ee6eec04644ba1",
+  "schema": "public",
+  "startedAt": "2024-07-07T23:51:47.834071Z"
+}

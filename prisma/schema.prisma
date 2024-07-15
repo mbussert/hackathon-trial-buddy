@@ -22,31 +22,35 @@ model users {
   email          String   @unique
   first_name     String
   last_name      String
-  clients        client[]
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
   xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
   xata_id        String   @unique(map: "users__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   cases          cases[]
+  clients        client[]
 }
 
 model cases {
   id             String        @id @unique @default(uuid())
-  case_number    String
   createdAt      DateTime      @default(now()) @db.Timestamptz(6)
-  defendant      String
   fileHash       String?
   fileUrl        String?
   owner          String?
-  client         client        @relation(fields: [clientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  clientId       String
-  attorney       users         @relation(fields: [attorneyId], references: [id])
-  attorneyId     String
   xata_id        String        @unique(map: "cases__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version   Int           @default(0)
   xata_createdat DateTime      @default(now()) @db.Timestamptz(6)
   xata_updatedat DateTime      @default(now()) @db.Timestamptz(6)
+  clientId       String
+  attorneyId     String
+  case_number    String
+  court          String?
+  defendants     String[]
+  plaintiffs     String[]
+  case_docs      case_docs[]
+  case_files     case_files[]
   summary        case_summary?
+  attorney       users         @relation(fields: [attorneyId], references: [id])
+  client         client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }
 
 model case_summary {
@@ -54,7 +58,6 @@ model case_summary {
   analysis          String
   backgroundFacts   String
   authoringJudges   String[]
-  case_number       String
   court             String
   plaintiffs        String[]
   defendants        String[]
@@ -66,6 +69,7 @@ model case_summary {
   xata_version      Int      @default(0)
   xata_createdat    DateTime @default(now()) @db.Timestamptz(6)
   xata_updatedat    DateTime @default(now()) @db.Timestamptz(6)
+  case_number       String
   case              cases    @relation(fields: [caseId], references: [id])
 }
 
@@ -77,11 +81,45 @@ model client {
   last_name      String
   email          String   @unique
   telephone      String
-  attorney       users    @relation(fields: [attorneyId], references: [id])
   attorneyId     String
   xata_id        String   @unique(map: "clients__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
   xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
   cases          cases[]
+  attorney       users    @relation(fields: [attorneyId], references: [id])
+}
+
+model case_files {
+  id             String   @id @unique @default(uuid())
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @db.Timestamptz(6)
+  type           String?
+  caseId         String
+  fileName       String
+  extension      String
+  summarized     Boolean  @default(false)
+  summary        String?
+  xata_id        String   @unique(map: "case_files__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version   Int      @default(0)
+  xata_createdat DateTime @default(now()) @db.Timestamptz(6)
+  xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
+  document       Json
+  case           cases    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model case_docs {
+  xata_id        String   @unique(map: "_pgroll_new_case_docs_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version   Int      @default(0)
+  xata_createdat DateTime @default(now()) @db.Timestamptz(6)
+  xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
+  document       Json?
+  type           String?
+  caseId         String?
+  case           String?
+  extension      String?
+  fileName       String?
+  cases          cases?   @relation(fields: [case], references: [xata_id], onDelete: Cascade, onUpdate: NoAction, map: "case_link")
 }

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_526cecea168deb",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE cases ADD CONSTRAINT \"cases_attorneyId_fkey\" FOREIGN KEY (\"attorneyId\") REFERENCES users (id) ON UPDATE CASCADE ON DELETE RESTRICT"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_526cecea168deb",
+  "parent": "sql_fa67941f10db81",
+  "schema": "public",
+  "startedAt": "2024-07-14T13:20:55.259624Z"
+}

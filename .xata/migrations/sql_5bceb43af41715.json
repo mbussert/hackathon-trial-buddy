@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_5bceb43af41715",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE cases DROP defendant, ADD COLUMN court text, ADD COLUMN defendants text[], ADD COLUMN plaintiffs text[]"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_5bceb43af41715",
+  "parent": "sql_526cecea168deb",
+  "schema": "public",
+  "startedAt": "2024-07-15T00:28:41.822599Z"
+}

@@ -24,14 +24,27 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
+import { NewFileModal } from './new-file-modal'
 
 export default async function CaseContent({ caseData }: { caseData: TCase }) {
+  const plaintiffsArr = caseData.plaintiffs
+  const defendantsArr = caseData.defendants
+  let plaintiffs = plaintiffsArr[0]
+  let defendants = defendantsArr[0]
+
+  if (plaintiffsArr.length > 1) {
+    plaintiffs = `${plaintiffsArr[0]}, et al.`
+  }
+  if (defendantsArr.length > 1) {
+    defendants = `${defendantsArr[0]}, et al.`
+  }
+
   return (
     <>
       <header className="flex items-center justify-between pb-4 border-b">
         <div>
           <h1 className="text-2xl font-bold">{caseData.case_number}</h1>
-          <h1 className="text-xl ">{`Plaintiff v. ${caseData.defendant}`}</h1>
+          <h1 className="text-xl ">{`${plaintiffs} v. ${defendants}`}</h1>
         </div>
         <Button>Edit</Button>
       </header>
@@ -112,10 +125,7 @@ export default async function CaseContent({ caseData }: { caseData: TCase }) {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Files and Documents</CardTitle>
-              <Button size="sm" variant="outline" title="Upload Document">
-                <Upload className="mr-2 h-4 w-4" />
-                Upload
-              </Button>
+              <NewFileModal caseId={caseData.id} />
             </div>
           </CardHeader>
           <CardContent>
