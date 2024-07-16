@@ -1,10 +1,9 @@
 'use server'
 
-import prisma from '@/prisma/client'
 import { newFileSchema } from './new-file-schema'
 import { revalidatePath } from 'next/cache'
 import { getXataClient } from '@/src/xata'
-import { randomUUID } from 'crypto'
+import { TCase } from '@/types'
 
 export type FormState = {
   message: string
@@ -15,14 +14,14 @@ export type FormState = {
 const xata = getXataClient()
 
 export async function uploadFile(
-  caseId: string,
+  caseData: TCase,
   _prevStat: FormState,
   data: FormData,
 ): Promise<FormState> {
   const formData = Object.fromEntries(data)
   const parsedData = newFileSchema.safeParse(formData)
 
-  if (!caseId) {
+  if (!caseData.id) {
     return {
       message: 'No case found. Please try again.',
       error: true,
@@ -50,7 +49,8 @@ export async function uploadFile(
       fileName,
       extension,
       type,
-      caseId,
+      caseId: caseData.id,
+      case: caseData.xata_id,
       document: { name: fileName, mediaType: file.type, base64Content: '' },
     },
     ['*', 'document.uploadUrl'],
@@ -58,7 +58,7 @@ export async function uploadFile(
 
   const res = await fetch(record?.document?.uploadUrl, { method: 'PUT', body: file })
 
-  revalidatePath(`/dashboard/cases/${caseId}`)
+  revalidatePath(`/dashboard/cases/${caseData.id}`)
 
   return {
     message: `File successfully uploaded!`,

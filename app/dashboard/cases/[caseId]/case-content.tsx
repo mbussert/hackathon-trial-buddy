@@ -125,7 +125,7 @@ export default async function CaseContent({ caseData }: { caseData: TCase }) {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Files and Documents</CardTitle>
-              <NewFileModal caseId={caseData.id} />
+              <NewFileModal caseData={caseData} />
             </div>
           </CardHeader>
           <CardContent>

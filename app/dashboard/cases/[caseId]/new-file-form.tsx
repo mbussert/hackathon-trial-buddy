@@ -32,15 +32,16 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { caseFileTypes } from '@/lib/constants'
+import { TCase } from '@/types'
 
 type NewFileFormProps = {
   className?: string
   onSuccess: () => void
-  caseId: string
+  caseData: TCase
 }
 
-export default function NewFileForm({ className, onSuccess, caseId }: NewFileFormProps) {
-  const createNewCaseWithId = uploadFile.bind(null, caseId)
+export default function NewFileForm({ className, onSuccess, caseData }: NewFileFormProps) {
+  const createNewCaseWithId = uploadFile.bind(null, caseData)
   const [state, formAction] = useFormState(createNewCaseWithId, { message: '', error: false })
   const { pending } = useFormStatus()
 
