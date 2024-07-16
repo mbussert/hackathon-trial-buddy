@@ -7,6 +7,9 @@ async function getData(caseId: string) {
       where: {
         id: caseId,
       },
+      include: {
+        case_docs: true,
+      },
     })
     return data
   } catch (error: any) {
@@ -17,6 +20,7 @@ async function getData(caseId: string) {
 
 export default async function CasePage({ params }: { params: { caseId: string } }) {
   const caseData = await getData(params.caseId)
+
   return (
     <section className="flex-1 p-4 md:p-6">
       <CaseContent caseData={caseData} />

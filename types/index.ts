@@ -1,3 +1,5 @@
+import { CaseDocsRecord } from '@/src/xata'
+
 export type Client = {
   id: string
   first_name: string
@@ -32,4 +34,5 @@ export type TCase = {
   xata_version: number
   xata_createdat: Date
   xata_updatedat: Date
+  case_docs?: CaseDocsRecord[]
 }

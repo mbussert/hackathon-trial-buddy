@@ -1,7 +1,5 @@
-import prisma from '@/prisma/client'
-
-import { Download, Loader2, MoreHorizontal, Upload } from 'lucide-react'
-import { Client, TCase } from '@/types'
+import { MoreHorizontal, Sparkles } from 'lucide-react'
+import { TCase } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -25,12 +23,15 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
 import { NewFileModal } from './new-file-modal'
+import { format } from 'date-fns'
 
 export default async function CaseContent({ caseData }: { caseData: TCase }) {
   const plaintiffsArr = caseData.plaintiffs
   const defendantsArr = caseData.defendants
   let plaintiffs = plaintiffsArr[0]
   let defendants = defendantsArr[0]
+
+  const caseFiles = caseData?.case_docs
 
   if (plaintiffsArr.length > 1) {
     plaintiffs = `${plaintiffsArr[0]}, et al.`
@@ -140,111 +141,57 @@ export default async function CaseContent({ caseData }: { caseData: TCase }) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium">Complaint.pdf</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge>Complaint</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm text-muted-foreground">May 1, 2023</div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <span className="sr-only">Open menu</span>
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem asChild>
-                              <Link href="/">View Document</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-red-600 ">
-                              Delete Document
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium">MotionForSummaryJudgment.docx</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className="bg-emerald-600 hover:bg-emerald-600/80">Motion</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm text-muted-foreground">June 5, 2023</div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <span className="sr-only">Open menu</span>
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem asChild>
-                              <Link href="/">View Document</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-red-600 ">
-                              Delete Document
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium">ExpertReport.pdf</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="destructive">Witness</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm text-muted-foreground">July 1, 2023</div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <span className="sr-only">Open menu</span>
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem asChild>
-                              <Link href="/">View Document</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-red-600 ">
-                              Delete Document
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  {caseFiles?.map(doc => {
+                    const uploadDate = format(doc.xata_createdat, 'PPP')
+                    return (
+                      <TableRow key={doc.xata_id}>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <div className="font-medium">{`${doc.fileName}.${doc.extension}`}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge>{doc.type}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-sm text-muted-foreground">{uploadDate}</div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                  <span className="sr-only">Open menu</span>
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuItem asChild>
+                                  <Link href={`/dashboard/cases/${caseData.id}/${doc.xata_id}`}>
+                                    View
+                                  </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  Summarize
+                                  <Sparkles
+                                    fill="#00BAFF"
+                                    strokeWidth={0.7}
+                                    strokeOpacity={0.6}
+                                    className="h-4 w-4 ml-2"
+                                  />
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="text-red-600 ">
+                                  Delete Document
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </div>
