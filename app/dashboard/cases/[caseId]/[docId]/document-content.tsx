@@ -23,14 +23,33 @@ import {
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
 import { format } from 'date-fns'
-import { CaseDocsRecord } from '@/src/xata'
+import { CaseDocsRecord, getXataClient } from '@/src/xata'
 import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import prisma from '@/prisma/client'
+
+const xata = getXataClient()
+
+async function getDocument(docId: string) {
+  try {
+    const pdfDocument = (await xata.db.case_docs.read(docId, ['*', 'document.signedUrl'])) as any
+
+    const serializedDoc = pdfDocument.toSerializable()
+
+    const pdfUrl = serializedDoc.document.signedUrl
+
+    return pdfUrl as string
+  } catch (e: any) {
+    console.error(e.message)
+  }
+}
 
 export default async function DocumentContent({ docData }: { docData: CaseDocsRecord }) {
   const uploadDate = format(docData.xata_createdat, 'PPP')
   const { caseInformation } = docData?.summary
+
+  const pdfUrl = await getDocument(docData.xata_id)
 
   const renderValue = (value: any) => {
     if (typeof value === 'object' && value !== null) {
@@ -130,35 +149,9 @@ export default async function DocumentContent({ docData }: { docData: CaseDocsRe
           <CardHeader>
             <CardTitle>Document</CardTitle>
           </CardHeader>
-          <CardContent className="flex-1">
-            <div className="grid gap-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="task-1" />
-                  <Label htmlFor="task-1" className="font-medium">
-                    File motion for summary judgment
-                  </Label>
-                </div>
-                <div className="text-sm text-muted-foreground">Due: June 10</div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="task-2" />
-                  <Label htmlFor="task-2" className="font-medium">
-                    Prepare witness list
-                  </Label>
-                </div>
-                <div className="text-sm text-muted-foreground">Due: June 30</div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="task-3" />
-                  <Label htmlFor="task-3" className="font-medium">
-                    Review expert reports
-                  </Label>
-                </div>
-                <div className="text-sm text-muted-foreground">Due: July 15</div>
-              </div>
+          <CardContent className="flex-1 h-full">
+            <div className="grid gap-2 h-[90%]">
+              <object data={pdfUrl} type="application/pdf" width="100%" height="100%"></object>
             </div>
           </CardContent>
         </Card>
