@@ -1,33 +1,14 @@
-import { CornerDownLeft, Mic, MoreHorizontal, Paperclip, Sparkles } from 'lucide-react'
-import { TCase } from '@/types'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import Link from 'next/link'
 import { format } from 'date-fns'
-import { CaseDocsRecord, getXataClient } from '@/src/xata'
+import { CornerDownLeft, Mic, Paperclip } from 'lucide-react'
+
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import prisma from '@/prisma/client'
+import { CaseDocsRecord, getXataClient } from '@/src/xata'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { toast } from 'sonner'
 
 const xata = getXataClient()
 
@@ -47,12 +28,20 @@ async function getDocument(docId: string) {
 
 export default async function DocumentContent({ docData }: { docData: CaseDocsRecord }) {
   const uploadDate = format(docData.xata_createdat, 'PPP')
+
+  if (!docData?.summary) {
+    return (
+      <h1 className="text-lg font-semibold">
+        Uh oh! Looks like that document has not been summarized yet
+      </h1>
+    )
+  }
   const { caseInformation } = docData?.summary
 
   const pdfUrl = await getDocument(docData.xata_id)
 
   const renderValue = (value: any) => {
-    if (typeof value === 'object' && value !== null) {
+    if (typeof value === 'object' && value !== null && value !== '') {
       return (
         <ol>
           {Object.entries(value).map(([nestedKey, nestedValue]: any) => (
@@ -96,12 +85,18 @@ export default async function DocumentContent({ docData }: { docData: CaseDocsRe
               <ScrollArea className="h-[600px] overflow-auto p-2">
                 {Object.entries(docData?.summary)
                   .filter(([key]) => !omitKeys.includes(key))
-                  .map(([key, value]: any) => (
-                    <h3 className="py-2" key={key}>
-                      <span className="font-bold underline">{camelCaseToWords(key)}:</span>{' '}
-                      {renderValue(value)}
-                    </h3>
-                  ))}
+                  .map(([key, value]: any) => {
+                    if (value === '') {
+                      return null
+                    }
+
+                    return (
+                      <h3 className="py-2" key={key}>
+                        <span className="font-bold underline">{camelCaseToWords(key)}:</span>{' '}
+                        {renderValue(value)}
+                      </h3>
+                    )
+                  })}
               </ScrollArea>
 
               <div className="space-x-4 flex flex-col">

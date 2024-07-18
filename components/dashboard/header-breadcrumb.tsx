@@ -39,9 +39,7 @@ export default function HeaderBreadcrumb() {
             <Fragment key={index}>
               <BreadcrumbItem>
                 {!isLastPath ? (
-                  <BreadcrumbLink asChild>
-                    <Link href={href}>{linkName}</Link>
-                  </BreadcrumbLink>
+                  <BreadcrumbPage>{linkName}</BreadcrumbPage>
                 ) : (
                   <BreadcrumbPage>{linkName}</BreadcrumbPage>
                 )}
