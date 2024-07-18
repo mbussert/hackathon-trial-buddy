@@ -22,7 +22,7 @@ export const syncUser = inngest.createFunction(
 
   async ({ event, prisma }) => {
     const user = event.data
-    const { id, first_name, last_name } = user
+    const { id, firstName, lastName } = user
 
     let email = user.email_addresses.find((e: any) => e.id === user.primary_email_address_id).email
 
@@ -30,7 +30,12 @@ export const syncUser = inngest.createFunction(
       email = user.email_addresses[0].email_address
     }
 
-    const saveUser = await prisma.users.create({ data: { id, email, first_name, last_name } })
+    const userFirst = firstName || 'John'
+    const userLast = lastName || 'Doe'
+
+    const saveUser = await prisma.users.create({
+      data: { id, email, first_name: userFirst, last_name: userLast },
+    })
 
     return { event, body: `Welcome, ${saveUser?.email}!` }
   },
