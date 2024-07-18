@@ -1,5 +1,5 @@
-import { messageSent, syncUser } from './functions'
+import { pdfParse, syncUser, summarizePdf } from './functions'
 
-export const functions = [messageSent, syncUser]
+export const functions = [syncUser, pdfParse, summarizePdf]
 
 export { inngest } from './client'

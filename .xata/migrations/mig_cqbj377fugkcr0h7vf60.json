@@ -1,0 +1,25 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cqbj377fugkcr0h7vf60",
+    "operations": [
+      {
+        "add_column": {
+          "table": "case_docs",
+          "column": {
+            "pk": false,
+            "name": "parsedText",
+            "type": "jsonb",
+            "unique": false,
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cqbj377fugkcr0h7vf60",
+  "parent": "mig_cqah98up9nttc8i6k0pg",
+  "schema": "public",
+  "startedAt": "2024-07-17T02:51:09.066672Z"
+}

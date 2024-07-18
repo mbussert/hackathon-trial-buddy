@@ -121,5 +121,7 @@ model case_docs {
   case           String?
   extension      String?
   fileName       String?
+  parsedText     Json?
+  summary        Json?
   cases          cases?   @relation(fields: [case], references: [xata_id], onDelete: Cascade, onUpdate: NoAction, map: "case_link")
 }

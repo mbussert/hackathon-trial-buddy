@@ -6,6 +6,8 @@ export const caseFileTypes = [
   'Exhibit',
   'Misc',
   'Motion',
+  'Order',
+  'Opinion',
   'Response',
   'Schedule',
   'Witness List',

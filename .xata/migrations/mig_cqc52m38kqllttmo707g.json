@@ -1,0 +1,25 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cqc52m38kqllttmo707g",
+    "operations": [
+      {
+        "add_column": {
+          "table": "case_docs",
+          "column": {
+            "pk": false,
+            "name": "summary",
+            "type": "jsonb",
+            "unique": false,
+            "nullable": true
+          }
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cqc52m38kqllttmo707g",
+  "parent": "mig_cqbj377fugkcr0h7vf60",
+  "schema": "public",
+  "startedAt": "2024-07-17T23:18:49.554526Z"
+}

@@ -4,6 +4,7 @@ import { newFileSchema } from './new-file-schema'
 import { revalidatePath } from 'next/cache'
 import { getXataClient } from '@/src/xata'
 import { TCase } from '@/types'
+import { inngest } from '@/inngest'
 
 export type FormState = {
   message: string
@@ -51,17 +52,55 @@ export async function uploadFile(
       type,
       caseId: caseData.id,
       case: caseData.xata_id,
-      document: { name: fileName, mediaType: file.type, base64Content: '' },
+      document: {
+        name: fileName,
+        mediaType: file.type,
+        base64Content: '',
+        enablePublicUrl: false,
+        signedUrlTimeout: 600,
+      },
     },
     ['*', 'document.uploadUrl'],
   )
 
-  const res = await fetch(record?.document?.uploadUrl, { method: 'PUT', body: file })
+  await fetch(record?.document?.uploadUrl, { method: 'PUT', body: file })
+
+  const serialized = record.toSerializable()
+
+  const pdfDocument = (await xata.db.case_docs.read(serialized.id, [
+    '*',
+    'document.signedUrl',
+  ])) as any
+
+  const serializedDoc = pdfDocument.toSerializable()
+
+  const parseUrl = `https://r.jina.ai/${serializedDoc.document.signedUrl}`
+
+  const parsedText = await fetch(parseUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${process.env.JINA_KEY}`,
+      Accept: 'application/json',
+    },
+  })
+
+  const jsonText = await parsedText.json()
+
+  await xata.db.case_docs.update(serialized.id, { parsedText: jsonText.data })
+
+  await inngest.send({
+    name: 'pdf/summarize',
+    data: {
+      title: jsonText?.data?.title,
+      text: jsonText?.data?.content,
+      docId: serialized.id,
+    },
+  })
 
   revalidatePath(`/dashboard/cases/${caseData.id}`)
 
   return {
-    message: `File successfully uploaded!`,
+    message: `${fileName}.${extension} successfully uploaded!`,
     error: false,
   }
 }

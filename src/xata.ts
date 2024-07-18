@@ -48,6 +48,20 @@ const tables = [
         defaultValue: null,
       },
       {
+        name: "parsedText",
+        type: "json",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "summary",
+        type: "json",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
         name: "type",
         type: "text",
         notNull: false,
