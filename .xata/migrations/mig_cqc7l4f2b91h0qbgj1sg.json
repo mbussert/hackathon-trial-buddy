@@ -1,0 +1,22 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cqc7l4f2b91h0qbgj1sg",
+    "operations": [
+      {
+        "alter_column": {
+          "up": "\"first_name\"",
+          "down": "\"first_name\"",
+          "table": "users",
+          "column": "first_name",
+          "nullable": true
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cqc7l4f2b91h0qbgj1sg",
+  "parent": "mig_cqc52m38kqllttmo707g",
+  "schema": "public",
+  "startedAt": "2024-07-18T02:14:41.946032Z"
+}

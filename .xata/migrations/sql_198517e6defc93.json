@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_198517e6defc93",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE \"Case\" ADD CONSTRAINT \"Case_user_id_fkey\" FOREIGN KEY (user_id) REFERENCES \"User\" (id) ON UPDATE CASCADE ON DELETE RESTRICT"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_198517e6defc93",
+  "parent": "sql_a13b88df619663",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:18.47381Z"
+}

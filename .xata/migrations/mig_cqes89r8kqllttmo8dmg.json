@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cqes89r8kqllttmo8dmg",
+    "operations": [
+      {
+        "drop_table": {
+          "name": "case_docs"
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cqes89r8kqllttmo8dmg",
+  "parent": "sql_ca8b7e7d48d394",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:29:59.667025Z"
+}

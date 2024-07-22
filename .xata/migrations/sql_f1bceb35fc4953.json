@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_f1bceb35fc4953",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE UNIQUE INDEX \"User__pgroll_new_id_key\" ON \"User\" USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_f1bceb35fc4953",
+  "parent": "sql_391d849dd4c13d",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:15.786935Z"
+}

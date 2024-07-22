@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_a13b88df619663",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE \"Case\" ADD CONSTRAINT \"Case_courtId_fkey\" FOREIGN KEY (\"courtId\") REFERENCES \"Court\" (id) ON UPDATE CASCADE ON DELETE RESTRICT"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_a13b88df619663",
+  "parent": "sql_2d269050656e1c",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:18.209934Z"
+}

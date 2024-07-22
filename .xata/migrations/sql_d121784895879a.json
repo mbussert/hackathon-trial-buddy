@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_d121784895879a",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"Client_attorney_id_idx\" ON \"Client\" USING btree (attorney_id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_d121784895879a",
+  "parent": "sql_fa4e7a5dbed6ed",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:17.636108Z"
+}

@@ -1,6 +1,6 @@
 'use server'
 
-import prisma from '@/prisma/client'
+import { prisma } from '@/prisma/client'
 import { newCaseFormSchema } from './form-schema'
 import { revalidatePath } from 'next/cache'
 

@@ -1,4 +1,4 @@
-import prisma from '@/prisma/client'
+import { prisma } from '@/prisma/client'
 import { columns } from './client-columns'
 import { ClientTable } from './client-table'
 import { NewClientModal } from './new-client-modal'

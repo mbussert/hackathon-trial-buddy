@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_289373107c5249",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE case_summary DROP CONSTRAINT \"case_summary_caseId_fkey\""
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_289373107c5249",
+  "parent": "sql_7114da71b53e17",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:28:37.582923Z"
+}

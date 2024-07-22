@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_33f7fbe982b21c",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"Party_case_id_idx\" ON \"Party\" USING btree (case_id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_33f7fbe982b21c",
+  "parent": "sql_43d20d63f15a6d",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:16.85806Z"
+}

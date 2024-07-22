@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_6952363e82734c",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"Court_id_idx\" ON \"Court\" USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_6952363e82734c",
+  "parent": "sql_84d483f8743b7f",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:17.068478Z"
+}

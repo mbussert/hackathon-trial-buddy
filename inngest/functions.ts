@@ -17,7 +17,12 @@ const client = new OpenAI({
 // See: @/app/api/inngest/route.ts
 
 export const syncUser = inngest.createFunction(
-  { id: 'sync-user-from-clerk' },
+  {
+    id: 'sync-user-from-clerk',
+    throttle: { limit: 4, period: '60s', key: 'event.data.id' },
+    concurrency: { limit: 15 },
+    retries: 2,
+  },
   { event: 'clerk/user.created' },
 
   async ({ event, prisma }) => {
@@ -67,7 +72,15 @@ export const pdfParse = inngest.createFunction(
 )
 
 export const summarizePdf = inngest.createFunction(
-  { id: 'summarize-pdf-text' },
+  {
+    id: 'summarize-pdf-text',
+    throttle: { limit: 4, period: '60s', key: 'event.data.type' },
+    concurrency: { limit: 15 },
+    retries: 2,
+    onFailure: async ({error, event, step }) => {
+      // Failed to summarize, should restore user tokens here
+    }
+  },
   { event: 'pdf/summarize' },
 
   async ({ event, step, prisma }) => {

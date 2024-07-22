@@ -8,72 +8,66 @@ import type {
 
 const tables = [
   {
-    name: "case_docs",
+    name: "Case",
     columns: [
       {
-        name: "case",
+        name: "case_number",
+        type: "text",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "client_id",
         type: "link",
-        link: { table: "cases" },
-        notNull: false,
+        link: { table: "Client" },
+        notNull: true,
+        unique: true,
+        defaultValue: null,
+      },
+      {
+        name: "courtId",
+        type: "link",
+        link: { table: "Court" },
+        notNull: true,
         unique: false,
         defaultValue: null,
       },
       {
-        name: "caseId",
+        name: "created_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "id",
         type: "text",
-        notNull: false,
-        unique: false,
+        notNull: true,
+        unique: true,
         defaultValue: null,
       },
       {
-        name: "document",
-        type: "file",
-        file: { defaultPublicAccess: false },
-        notNull: false,
+        name: "updated_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
         unique: false,
-        defaultValue: null,
+        defaultValue: "CURRENT_TIMESTAMP",
       },
       {
-        name: "extension",
-        type: "text",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "fileName",
-        type: "text",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "parsedText",
-        type: "json",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "summary",
-        type: "json",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "type",
-        type: "text",
-        notNull: false,
+        name: "user_id",
+        type: "link",
+        link: { table: "User" },
+        notNull: true,
         unique: false,
         defaultValue: null,
       },
       {
         name: "xata_createdat",
-        type: "datetime",
+        type: "timestamp(6) with time zone",
         notNull: true,
         unique: false,
-        defaultValue: "now()",
+        defaultValue: "CURRENT_TIMESTAMP",
       },
       {
         name: "xata_id",
@@ -84,10 +78,10 @@ const tables = [
       },
       {
         name: "xata_updatedat",
-        type: "datetime",
+        type: "timestamp(6) with time zone",
         notNull: true,
         unique: false,
-        defaultValue: "now()",
+        defaultValue: "CURRENT_TIMESTAMP",
       },
       {
         name: "xata_version",
@@ -99,28 +93,34 @@ const tables = [
     ],
   },
   {
-    name: "case_files",
+    name: "Case_File",
     columns: [
       {
-        name: "caseId",
+        name: "case_id",
         type: "link",
-        link: { table: "cases" },
+        link: { table: "Case" },
         notNull: true,
         unique: false,
         defaultValue: null,
       },
       {
-        name: "createdAt",
-        type: "timestamp(6) with time zone",
+        name: "created_at",
+        type: "timestamp(3) without time zone",
         notNull: true,
         unique: false,
         defaultValue: "CURRENT_TIMESTAMP",
       },
       {
         name: "document",
-        type: "file",
-        file: { defaultPublicAccess: false },
+        type: "json",
         notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "embedding",
+        type: "double precision[]",
+        notNull: false,
         unique: false,
         defaultValue: null,
       },
@@ -132,7 +132,7 @@ const tables = [
         defaultValue: null,
       },
       {
-        name: "fileName",
+        name: "file_name",
         type: "text",
         notNull: true,
         unique: false,
@@ -146,15 +146,22 @@ const tables = [
         defaultValue: null,
       },
       {
-        name: "summarized",
+        name: "is_summarized",
         type: "bool",
         notNull: true,
         unique: false,
         defaultValue: "false",
       },
       {
+        name: "parsed_text",
+        type: "json",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
         name: "summary",
-        type: "text",
+        type: "json",
         notNull: false,
         unique: false,
         defaultValue: null,
@@ -167,11 +174,26 @@ const tables = [
         defaultValue: null,
       },
       {
-        name: "updatedAt",
-        type: "timestamp(6) with time zone",
+        name: "updated_at",
+        type: "timestamp(3) without time zone",
         notNull: true,
         unique: false,
         defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "uploaded_by",
+        type: "text",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "vectors_id",
+        type: "link",
+        link: { table: "Vectors" },
+        notNull: false,
+        unique: false,
+        defaultValue: null,
       },
       {
         name: "xata_createdat",
@@ -204,250 +226,19 @@ const tables = [
     ],
   },
   {
-    name: "case_summary",
+    name: "Client",
     columns: [
       {
-        name: "analysis",
-        type: "text",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "authoringJudges",
-        type: "multiple",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "backgroundFacts",
-        type: "text",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "caseId",
+        name: "attorney_id",
         type: "link",
-        link: { table: "cases" },
-        notNull: true,
-        unique: true,
-        defaultValue: null,
-      },
-      {
-        name: "case_number",
-        type: "text",
+        link: { table: "User" },
         notNull: true,
         unique: false,
         defaultValue: null,
       },
       {
-        name: "court",
-        type: "text",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "courtHoldings",
-        type: "multiple",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "defendants",
-        type: "multiple",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "id",
-        type: "int",
-        notNull: true,
-        unique: true,
-        defaultValue:
-          "nextval('bb_5gg2clt7u55i9677f7b8c6foek_tj3m3g.case_summary_id_seq'::regclass)",
-      },
-      {
-        name: "jurisdiction",
-        type: "text",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "lowerCourtHolding",
-        type: "text",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "plaintiffs",
-        type: "multiple",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "xata_createdat",
-        type: "datetime",
-        notNull: true,
-        unique: false,
-        defaultValue: "now()",
-      },
-      {
-        name: "xata_id",
-        type: "text",
-        notNull: true,
-        unique: true,
-        defaultValue: "('rec_'::text || (xata_private.xid())::text)",
-      },
-      {
-        name: "xata_updatedat",
-        type: "datetime",
-        notNull: true,
-        unique: false,
-        defaultValue: "now()",
-      },
-      {
-        name: "xata_version",
-        type: "int",
-        notNull: true,
-        unique: false,
-        defaultValue: "0",
-      },
-    ],
-  },
-  {
-    name: "cases",
-    columns: [
-      {
-        name: "attorneyId",
-        type: "link",
-        link: { table: "users" },
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "case_number",
-        type: "text",
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "clientId",
-        type: "link",
-        link: { table: "client" },
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "court",
-        type: "text",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "createdAt",
-        type: "timestamp(6) with time zone",
-        notNull: true,
-        unique: false,
-        defaultValue: "CURRENT_TIMESTAMP",
-      },
-      {
-        name: "defendants",
-        type: "multiple",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "fileHash",
-        type: "text",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "fileUrl",
-        type: "text",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "id",
-        type: "text",
-        notNull: true,
-        unique: true,
-        defaultValue: null,
-      },
-      {
-        name: "owner",
-        type: "text",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "plaintiffs",
-        type: "multiple",
-        notNull: false,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "xata_createdat",
-        type: "datetime",
-        notNull: true,
-        unique: false,
-        defaultValue: "now()",
-      },
-      {
-        name: "xata_id",
-        type: "text",
-        notNull: true,
-        unique: true,
-        defaultValue: "('rec_'::text || (xata_private.xid())::text)",
-      },
-      {
-        name: "xata_updatedat",
-        type: "datetime",
-        notNull: true,
-        unique: false,
-        defaultValue: "now()",
-      },
-      {
-        name: "xata_version",
-        type: "int",
-        notNull: true,
-        unique: false,
-        defaultValue: "0",
-      },
-    ],
-  },
-  {
-    name: "client",
-    columns: [
-      {
-        name: "attorneyId",
-        type: "link",
-        link: { table: "users" },
-        notNull: true,
-        unique: false,
-        defaultValue: null,
-      },
-      {
-        name: "createdAt",
-        type: "timestamp(6) with time zone",
+        name: "created_at",
+        type: "timestamp(3) without time zone",
         notNull: true,
         unique: false,
         defaultValue: "CURRENT_TIMESTAMP",
@@ -488,8 +279,8 @@ const tables = [
         defaultValue: null,
       },
       {
-        name: "updatedAt",
-        type: "timestamp(6) with time zone",
+        name: "updated_at",
+        type: "timestamp(3) without time zone",
         notNull: true,
         unique: false,
         defaultValue: "CURRENT_TIMESTAMP",
@@ -525,21 +316,286 @@ const tables = [
     ],
   },
   {
-    name: "messages",
+    name: "Court",
     columns: [
       {
-        name: "author",
+        name: "address1",
         type: "text",
         notNull: true,
         unique: false,
         defaultValue: null,
       },
       {
-        name: "text",
+        name: "address2",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "city",
         type: "text",
         notNull: true,
         unique: false,
         defaultValue: null,
+      },
+      {
+        name: "created_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "email",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "id",
+        type: "text",
+        notNull: true,
+        unique: true,
+        defaultValue: null,
+      },
+      {
+        name: "name",
+        type: "text",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "state",
+        type: "text",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "telephone",
+        type: "text",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "updated_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "xata_createdat",
+        type: "timestamp(6) with time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "xata_id",
+        type: "text",
+        notNull: true,
+        unique: true,
+        defaultValue: "('rec_'::text || (xata_private.xid())::text)",
+      },
+      {
+        name: "xata_updatedat",
+        type: "timestamp(6) with time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "xata_version",
+        type: "int",
+        notNull: true,
+        unique: false,
+        defaultValue: "0",
+      },
+      {
+        name: "zipcode",
+        type: "text",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+    ],
+  },
+  {
+    name: "Party",
+    columns: [
+      {
+        name: "address1",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "address2",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "business_name",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "case_id",
+        type: "link",
+        link: { table: "Case" },
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "city",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "created_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "email",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "first_name",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "has_been_deposed",
+        type: "bool",
+        notNull: true,
+        unique: false,
+        defaultValue: "false",
+      },
+      {
+        name: "has_counsel",
+        type: "bool",
+        notNull: true,
+        unique: false,
+        defaultValue: "false",
+      },
+      {
+        name: "id",
+        type: "text",
+        notNull: true,
+        unique: true,
+        defaultValue: null,
+      },
+      {
+        name: "is_business",
+        type: "bool",
+        notNull: true,
+        unique: false,
+        defaultValue: "false",
+      },
+      {
+        name: "is_client",
+        type: "bool",
+        notNull: true,
+        unique: false,
+        defaultValue: "false",
+      },
+      {
+        name: "is_dismissed",
+        type: "bool",
+        notNull: true,
+        unique: false,
+        defaultValue: "false",
+      },
+      {
+        name: "is_plaintiff",
+        type: "bool",
+        notNull: true,
+        unique: false,
+        defaultValue: "false",
+      },
+      {
+        name: "last_name",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "service_address1",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "service_address2",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "service_agent",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "service_city",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "service_state",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "state",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "telephone",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "updated_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
       },
       {
         name: "xata_createdat",
@@ -572,8 +628,22 @@ const tables = [
     ],
   },
   {
-    name: "users",
+    name: "User",
     columns: [
+      {
+        name: "avatar",
+        type: "text",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "created_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
       {
         name: "email",
         type: "text",
@@ -593,7 +663,7 @@ const tables = [
         type: "text",
         notNull: true,
         unique: true,
-        defaultValue: null,
+        defaultValue: "('rec_'::text || (xata_private.xid())::text)",
       },
       {
         name: "last_name",
@@ -603,11 +673,18 @@ const tables = [
         defaultValue: null,
       },
       {
-        name: "xata_createdat",
-        type: "datetime",
+        name: "updated_at",
+        type: "timestamp(3) without time zone",
         notNull: true,
         unique: false,
-        defaultValue: "now()",
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "xata_createdat",
+        type: "timestamp(6) with time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
       },
       {
         name: "xata_id",
@@ -618,10 +695,78 @@ const tables = [
       },
       {
         name: "xata_updatedat",
-        type: "datetime",
+        type: "timestamp(6) with time zone",
         notNull: true,
         unique: false,
-        defaultValue: "now()",
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "xata_version",
+        type: "int",
+        notNull: true,
+        unique: false,
+        defaultValue: "0",
+      },
+    ],
+  },
+  {
+    name: "Vectors",
+    columns: [
+      {
+        name: "content",
+        type: "text",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "created_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "embedding",
+        type: "vector",
+        notNull: false,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "id",
+        type: "text",
+        notNull: true,
+        unique: true,
+        defaultValue: null,
+      },
+      {
+        name: "updated_at",
+        type: "timestamp(3) without time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: null,
+      },
+      {
+        name: "xata_createdat",
+        type: "timestamp(6) with time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
+      },
+      {
+        name: "xata_id",
+        type: "text",
+        notNull: true,
+        unique: true,
+        defaultValue: "('rec_'::text || (xata_private.xid())::text)",
+      },
+      {
+        name: "xata_updatedat",
+        type: "timestamp(6) with time zone",
+        notNull: true,
+        unique: false,
+        defaultValue: "CURRENT_TIMESTAMP",
       },
       {
         name: "xata_version",
@@ -637,35 +782,35 @@ const tables = [
 export type SchemaTables = typeof tables;
 export type InferredTypes = SchemaInference<SchemaTables>;
 
-export type CaseDocs = InferredTypes["case_docs"];
-export type CaseDocsRecord = CaseDocs & XataRecord;
+export type Case = InferredTypes["Case"];
+export type CaseRecord = Case & XataRecord;
 
-export type CaseFiles = InferredTypes["case_files"];
-export type CaseFilesRecord = CaseFiles & XataRecord;
+export type CaseFile = InferredTypes["Case_File"];
+export type CaseFileRecord = CaseFile & XataRecord;
 
-export type CaseSummary = InferredTypes["case_summary"];
-export type CaseSummaryRecord = CaseSummary & XataRecord;
-
-export type Cases = InferredTypes["cases"];
-export type CasesRecord = Cases & XataRecord;
-
-export type Client = InferredTypes["client"];
+export type Client = InferredTypes["Client"];
 export type ClientRecord = Client & XataRecord;
 
-export type Messages = InferredTypes["messages"];
-export type MessagesRecord = Messages & XataRecord;
+export type Court = InferredTypes["Court"];
+export type CourtRecord = Court & XataRecord;
 
-export type Users = InferredTypes["users"];
-export type UsersRecord = Users & XataRecord;
+export type Party = InferredTypes["Party"];
+export type PartyRecord = Party & XataRecord;
+
+export type User = InferredTypes["User"];
+export type UserRecord = User & XataRecord;
+
+export type Vectors = InferredTypes["Vectors"];
+export type VectorsRecord = Vectors & XataRecord;
 
 export type DatabaseSchema = {
-  case_docs: CaseDocsRecord;
-  case_files: CaseFilesRecord;
-  case_summary: CaseSummaryRecord;
-  cases: CasesRecord;
-  client: ClientRecord;
-  messages: MessagesRecord;
-  users: UsersRecord;
+  Case: CaseRecord;
+  Case_File: CaseFileRecord;
+  Client: ClientRecord;
+  Court: CourtRecord;
+  Party: PartyRecord;
+  User: UserRecord;
+  Vectors: VectorsRecord;
 };
 
 const DatabaseClient = buildClient();

@@ -1,6 +1,6 @@
 'use server'
 
-import prisma from '@/prisma/client'
+import { prisma } from '@/prisma/client'
 import { newClientFormSchema } from './form-schema'
 import { revalidatePath, revalidateTag } from 'next/cache'
 
@@ -39,12 +39,12 @@ export async function createNewClient(
 
   const { first_name, last_name, email, telephone } = parsedData.data
 
-  await prisma.users.update({
+  await prisma.user.update({
     where: {
       id: userId,
     },
     data: {
-      clients: {
+      client: {
         create: {
           first_name,
           last_name,

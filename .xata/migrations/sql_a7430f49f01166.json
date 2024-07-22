@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_a7430f49f01166",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE TABLE \"Court\" (id text NOT NULL, created_at timestamp(3) NOT NULL DEFAULT current_timestamp, updated_at timestamp(3) NOT NULL DEFAULT current_timestamp, name text NOT NULL, telephone text NOT NULL, address1 text NOT NULL, address2 text NOT NULL, city text NOT NULL, state text NOT NULL, email text, xata_id text NOT NULL DEFAULT 'rec_'::text || xata_private.xid()::text, xata_version int NOT NULL DEFAULT 0, xata_createdat timestamptz(6) NOT NULL DEFAULT current_timestamp, xata_updatedat timestamptz(6) NOT NULL DEFAULT current_timestamp, CONSTRAINT \"Court_pkey\" PRIMARY KEY (id))"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_a7430f49f01166",
+  "parent": "sql_e26aec721ba23d",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:14.553092Z"
+}

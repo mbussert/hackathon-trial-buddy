@@ -1,4 +1,4 @@
-import prisma from '@/prisma/client'
+import { prisma } from '@/prisma/client'
 import CaseContent from './case-content'
 
 async function getData(caseId: string) {

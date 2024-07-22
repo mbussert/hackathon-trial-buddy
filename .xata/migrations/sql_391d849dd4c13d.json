@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_391d849dd4c13d",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE TABLE \"Vectors\" (id text NOT NULL, created_at timestamp(3) NOT NULL DEFAULT current_timestamp, updated_at timestamp(3) NOT NULL, embedding vector, content text NOT NULL, xata_createdat timestamptz(6) NOT NULL DEFAULT current_timestamp, xata_id text NOT NULL DEFAULT 'rec_'::text || xata_private.xid()::text, xata_updatedat timestamptz(6) NOT NULL DEFAULT current_timestamp, xata_version int NOT NULL DEFAULT 0, CONSTRAINT \"Vectors_pkey\" PRIMARY KEY (id))"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_391d849dd4c13d",
+  "parent": "sql_c6aafedfa50c59",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:15.497173Z"
+}

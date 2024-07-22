@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_7114da71b53e17",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE case_files DROP CONSTRAINT \"case_files_caseId_fkey\""
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_7114da71b53e17",
+  "parent": "sql_dc3356aeedc7dc",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:28:37.327281Z"
+}

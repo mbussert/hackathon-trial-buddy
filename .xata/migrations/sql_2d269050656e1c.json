@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_2d269050656e1c",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"Vectors_id_idx\" ON \"Vectors\" USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_2d269050656e1c",
+  "parent": "sql_733ff62567e25c",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:18.133393Z"
+}

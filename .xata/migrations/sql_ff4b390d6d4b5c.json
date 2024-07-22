@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_ff4b390d6d4b5c",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE \"Court\" ADD COLUMN zipcode text NOT NULL, ALTER COLUMN address2 DROP NOT NULL"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_ff4b390d6d4b5c",
+  "parent": "sql_af5c2cebacad81",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:41:51.713073Z"
+}

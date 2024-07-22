@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_7e2eeb38cb94d8",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE UNIQUE INDEX \"Party_id_key\" ON \"Party\" USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_7e2eeb38cb94d8",
+  "parent": "sql_6941ab61566be5",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:16.641406Z"
+}

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_c80840b48f6fc0",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"User_id_idx\" ON \"User\" USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_c80840b48f6fc0",
+  "parent": "sql_8b792aac321ca2",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:16.074448Z"
+}

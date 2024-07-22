@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cqes8kn2b91h0qbgkbm0",
+    "operations": [
+      {
+        "drop_table": {
+          "name": "client"
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cqes8kn2b91h0qbgkbm0",
+  "parent": "mig_cqes8iv2b91h0qbgkbl0",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:30:43.821402Z"
+}

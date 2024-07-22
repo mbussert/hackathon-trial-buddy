@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_e26aec721ba23d",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE TABLE \"Party\" (id text NOT NULL, created_at timestamp(3) NOT NULL DEFAULT current_timestamp, updated_at timestamp(3) NOT NULL DEFAULT current_timestamp, first_name text, last_name text, business_name text, telephone text, address1 text, address2 text, city text, state text, email text, is_business boolean NOT NULL DEFAULT false, is_dismissed boolean NOT NULL DEFAULT false, has_counsel boolean NOT NULL DEFAULT false, is_client boolean NOT NULL DEFAULT false, is_plaintiff boolean NOT NULL DEFAULT false, has_been_deposed boolean NOT NULL DEFAULT false, service_agent text, service_address1 text, service_address2 text, service_city text, service_state text, case_id text NOT NULL, xata_id text NOT NULL DEFAULT 'rec_'::text || xata_private.xid()::text, xata_version int NOT NULL DEFAULT 0, xata_createdat timestamptz(6) NOT NULL DEFAULT current_timestamp, xata_updatedat timestamptz(6) NOT NULL DEFAULT current_timestamp, CONSTRAINT \"Party_pkey\" PRIMARY KEY (id))"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_e26aec721ba23d",
+  "parent": "sql_36f1e905bbc8fb",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:14.251786Z"
+}

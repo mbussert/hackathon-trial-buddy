@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_af5c2cebacad81",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE \"Case_File\" ADD CONSTRAINT \"Case_File_vectors_id_fkey\" FOREIGN KEY (vectors_id) REFERENCES \"Vectors\" (id) ON UPDATE CASCADE ON DELETE SET NULL"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_af5c2cebacad81",
+  "parent": "sql_abc6af3f5b8e66",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:20.047438Z"
+}

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_fa4e7a5dbed6ed",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"Client_id_idx\" ON \"Client\" USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_fa4e7a5dbed6ed",
+  "parent": "sql_0514055b78e4d4",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:17.468698Z"
+}

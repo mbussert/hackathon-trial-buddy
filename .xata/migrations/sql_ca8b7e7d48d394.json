@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_ca8b7e7d48d394",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE client DROP CONSTRAINT \"client_attorneyId_fkey\""
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_ca8b7e7d48d394",
+  "parent": "sql_b0c04c683527f9",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:28:38.575709Z"
+}

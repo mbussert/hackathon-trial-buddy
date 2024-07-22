@@ -1,0 +1,22 @@
+{
+  "done": true,
+  "migration": {
+    "name": "mig_cqc7l8b8kqllttmo70tg",
+    "operations": [
+      {
+        "alter_column": {
+          "up": "\"last_name\"",
+          "down": "\"last_name\"",
+          "table": "users",
+          "column": "last_name",
+          "nullable": true
+        }
+      }
+    ]
+  },
+  "migrationType": "pgroll",
+  "name": "mig_cqc7l8b8kqllttmo70tg",
+  "parent": "mig_cqc7l4f2b91h0qbgj1sg",
+  "schema": "public",
+  "startedAt": "2024-07-18T02:14:59.016491Z"
+}

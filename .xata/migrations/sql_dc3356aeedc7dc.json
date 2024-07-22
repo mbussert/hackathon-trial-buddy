@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_dc3356aeedc7dc",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE case_docs DROP CONSTRAINT case_link"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_dc3356aeedc7dc",
+  "parent": "mig_cqc7l8b8kqllttmo70tg",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:28:37.037386Z"
+}

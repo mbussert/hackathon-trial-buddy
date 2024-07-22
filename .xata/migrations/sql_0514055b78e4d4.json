@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_0514055b78e4d4",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE UNIQUE INDEX \"Client__pgroll_new_xata_id_key\" ON \"Client\" USING btree (xata_id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_0514055b78e4d4",
+  "parent": "sql_cdca92795b849f",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:17.298612Z"
+}

@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_13481c8df6b342",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE TABLE \"Client\" (id text NOT NULL, created_at timestamp(3) NOT NULL DEFAULT current_timestamp, updated_at timestamp(3) NOT NULL DEFAULT current_timestamp, first_name text NOT NULL, last_name text NOT NULL, email text NOT NULL, telephone text NOT NULL, attorney_id text NOT NULL, xata_id text NOT NULL DEFAULT 'rec_'::text || xata_private.xid()::text, xata_version int NOT NULL DEFAULT 0, xata_createdat timestamptz(6) NOT NULL DEFAULT current_timestamp, xata_updatedat timestamptz(6) NOT NULL DEFAULT current_timestamp, CONSTRAINT \"Client_pkey\" PRIMARY KEY (id))"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_13481c8df6b342",
+  "parent": "sql_a7430f49f01166",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:14.850724Z"
+}

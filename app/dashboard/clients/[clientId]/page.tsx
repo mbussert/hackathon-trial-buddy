@@ -1,4 +1,4 @@
-import prisma from '@/prisma/client'
+import { prisma } from '@/prisma/client'
 
 async function getData(clientId: string) {
   try {
@@ -18,7 +18,7 @@ export default async function ClientPage({ params }: { params: { clientId: strin
   const clientData = await getData(params.clientId)
   return (
     <section className="flex-1 p-4 md:p-6">
-      Client: {clientData.first_name} {clientData.last_name}
+      Client: {clientData?.first_name} {clientData?.last_name}
     </section>
   )
 }

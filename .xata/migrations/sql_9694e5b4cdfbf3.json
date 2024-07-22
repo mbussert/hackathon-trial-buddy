@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_9694e5b4cdfbf3",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"Case_user_id_idx\" ON \"Case\" USING btree (user_id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_9694e5b4cdfbf3",
+  "parent": "sql_89d947008b46a3",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:16.467112Z"
+}

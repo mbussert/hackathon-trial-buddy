@@ -1,127 +1,176 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  extensions        = [uuid_ossp(map: "uuid-ossp", schema: "xata"), vector]
 }
 
-model messages {
-  text           String
-  author         String
-  xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
-  xata_id        String   @unique(map: "_pgroll_users_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
-  xata_version   Int      @default(0)
-  xata_createdat DateTime @default(now()) @db.Timestamptz(6)
-}
-
-model users {
-  id             String   @id @unique
+model User {
+  id             String   @id @unique(map: "User__pgroll_new_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   email          String   @unique
   first_name     String
   last_name      String
+  avatar         String?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now()) @updatedAt
+  Cases          Case[]
+  Clients        Client[]
+  // Xata
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
   xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
-  xata_id        String   @unique(map: "users__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
-  cases          cases[]
-  clients        client[]
+  xata_id        String   @unique(map: "User__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+
+  @@index([email])
+  @@index([id])
 }
 
-model cases {
-  id             String        @id @unique @default(uuid())
-  createdAt      DateTime      @default(now()) @db.Timestamptz(6)
-  fileHash       String?
-  fileUrl        String?
-  owner          String?
-  xata_id        String        @unique(map: "cases__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
-  xata_version   Int           @default(0)
-  xata_createdat DateTime      @default(now()) @db.Timestamptz(6)
-  xata_updatedat DateTime      @default(now()) @db.Timestamptz(6)
-  clientId       String
-  attorneyId     String
+model Case {
+  id             String      @id @unique @default(uuid())
+  created_at     DateTime    @default(now())
+  updated_at     DateTime    @default(now()) @updatedAt
+  client_id      String      @unique
+  user_id        String
   case_number    String
-  court          String?
-  defendants     String[]
-  plaintiffs     String[]
-  case_docs      case_docs[]
-  case_files     case_files[]
-  summary        case_summary?
-  attorney       users         @relation(fields: [attorneyId], references: [id])
-  client         client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  court          Court       @relation(fields: [courtId], references: [id])
+  // Xata
+  xata_id        String      @unique(map: "Case__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version   Int         @default(0)
+  xata_createdat DateTime    @default(now()) @db.Timestamptz(6)
+  xata_updatedat DateTime    @default(now()) @db.Timestamptz(6)
+  parties        Party[]
+  case_files     Case_File[]
+  user           User        @relation(fields: [user_id], references: [id])
+  client         Client      @relation(fields: [client_id], references: [id], onDelete: Cascade)
+  courtId        String
+
+  @@index([id])
+  @@index([user_id])
+  @@index([client_id])
 }
 
-model case_summary {
-  id                Int      @id @unique @default(autoincrement())
-  analysis          String
-  backgroundFacts   String
-  authoringJudges   String[]
-  court             String
-  plaintiffs        String[]
-  defendants        String[]
-  jurisdiction      String
-  courtHoldings     String[]
-  lowerCourtHolding String
-  caseId            String   @unique
-  xata_id           String   @unique(map: "case_summary__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
-  xata_version      Int      @default(0)
-  xata_createdat    DateTime @default(now()) @db.Timestamptz(6)
-  xata_updatedat    DateTime @default(now()) @db.Timestamptz(6)
-  case_number       String
-  case              cases    @relation(fields: [caseId], references: [id])
+model Party {
+  id               String   @id @unique @default(uuid())
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now()) @updatedAt
+  first_name       String?
+  last_name        String?
+  business_name    String?
+  telephone        String?
+  address1         String?
+  address2         String?
+  city             String?
+  state            String?
+  email            String?
+  is_business      Boolean  @default(false)
+  is_dismissed     Boolean  @default(false)
+  has_counsel      Boolean  @default(false)
+  is_client        Boolean  @default(false)
+  is_plaintiff     Boolean  @default(false)
+  has_been_deposed Boolean  @default(false)
+  service_agent    String?
+  service_address1 String?
+  service_address2 String?
+  service_city     String?
+  service_state    String?
+  case_id          String
+  case             Case     @relation(fields: [case_id], references: [id], onDelete: Cascade)
+  // Xata
+  xata_id          String   @unique(map: "Party__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version     Int      @default(0)
+  xata_createdat   DateTime @default(now()) @db.Timestamptz(6)
+  xata_updatedat   DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([id])
+  @@index([case_id])
 }
 
-model client {
+model Court {
   id             String   @id @unique @default(uuid())
-  createdAt      DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime @default(now()) @db.Timestamptz(6)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now()) @updatedAt
+  name           String
+  telephone      String
+  address1       String
+  address2       String?
+  zipcode        String
+  city           String
+  state          String
+  email          String?
+  // Xata
+  xata_id        String   @unique(map: "Court__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version   Int      @default(0)
+  xata_createdat DateTime @default(now()) @db.Timestamptz(6)
+  xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
+  Case           Case[]
+
+  @@index([id])
+}
+
+model Client {
+  id             String   @id @unique @default(uuid())
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now()) @updatedAt
   first_name     String
   last_name      String
   email          String   @unique
   telephone      String
-  attorneyId     String
-  xata_id        String   @unique(map: "clients__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  attorney_id    String
+  // Xata
+  xata_id        String   @unique(map: "Client__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
   xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
-  cases          cases[]
-  attorney       users    @relation(fields: [attorneyId], references: [id])
+  case           Case?
+  attorney       User     @relation(fields: [attorney_id], references: [id], onDelete: Cascade)
+
+  @@index([id])
+  @@index([attorney_id])
 }
 
-model case_files {
+model Case_File {
   id             String   @id @unique @default(uuid())
-  createdAt      DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime @default(now()) @db.Timestamptz(6)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now()) @updatedAt
+  uploaded_by    String
   type           String?
-  caseId         String
-  fileName       String
+  case_id        String
+  file_name      String
   extension      String
-  summarized     Boolean  @default(false)
-  summary        String?
-  xata_id        String   @unique(map: "case_files__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  is_summarized  Boolean  @default(false)
+  summary        Json?
+  parsed_text    Json?
+  document       Json
+  embedding      Float[]
+  vectors_id     String?
+  case           Case     @relation(fields: [case_id], references: [id], onDelete: Cascade)
+  Vectors        Vectors? @relation(fields: [vectors_id], references: [id])
+  // Xata
+  xata_id        String   @unique(map: "Case_File__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version   Int      @default(0)
   xata_createdat DateTime @default(now()) @db.Timestamptz(6)
   xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
-  document       Json
-  case           cases    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([id])
+  @@index([case_id])
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model case_docs {
-  xata_id        String   @unique(map: "_pgroll_new_case_docs_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
-  xata_version   Int      @default(0)
-  xata_createdat DateTime @default(now()) @db.Timestamptz(6)
-  xata_updatedat DateTime @default(now()) @db.Timestamptz(6)
-  document       Json?
-  type           String?
-  caseId         String?
-  case           String?
-  extension      String?
-  fileName       String?
-  parsedText     Json?
-  summary        Json?
-  cases          cases?   @relation(fields: [case], references: [xata_id], onDelete: Cascade, onUpdate: NoAction, map: "case_link")
+model Vectors {
+  id             String                 @id @default(uuid())
+  created_at     DateTime               @default(now())
+  updated_at     DateTime               @updatedAt
+  embedding      Unsupported("vector")?
+  content        String
+  xata_createdat DateTime               @default(now()) @db.Timestamptz(6)
+  xata_id        String                 @unique(map: "Vectors__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_updatedat DateTime               @default(now()) @db.Timestamptz(6)
+  xata_version   Int                    @default(0)
+  case_file      Case_File[]
+
+  @@index([id])
 }

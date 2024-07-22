@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_b0c04c683527f9",
+    "operations": [
+      {
+        "sql": {
+          "up": "ALTER TABLE cases DROP CONSTRAINT \"cases_clientId_fkey\""
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_b0c04c683527f9",
+  "parent": "sql_d67870e3aab469",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:28:38.107786Z"
+}

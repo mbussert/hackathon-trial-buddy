@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_43d20d63f15a6d",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE INDEX \"Party_id_idx\" ON \"Party\" USING btree (id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_43d20d63f15a6d",
+  "parent": "sql_4639994c050175",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:16.789219Z"
+}

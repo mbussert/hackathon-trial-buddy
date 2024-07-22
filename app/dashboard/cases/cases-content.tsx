@@ -1,4 +1,4 @@
-import prisma from '@/prisma/client'
+import { prisma } from '@/prisma/client'
 
 import { Loader2 } from 'lucide-react'
 import { Client, TCase } from '@/types'

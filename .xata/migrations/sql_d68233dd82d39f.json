@@ -1,0 +1,18 @@
+{
+  "done": true,
+  "migration": {
+    "name": "sql_d68233dd82d39f",
+    "operations": [
+      {
+        "sql": {
+          "up": "CREATE UNIQUE INDEX \"Case_client_id_key\" ON \"Case\" USING btree (client_id)"
+        }
+      }
+    ]
+  },
+  "migrationType": "inferred",
+  "name": "sql_d68233dd82d39f",
+  "parent": "sql_d907c8bc7bc43f",
+  "schema": "public",
+  "startedAt": "2024-07-22T02:31:16.220071Z"
+}
