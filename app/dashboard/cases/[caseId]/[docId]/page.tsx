@@ -3,9 +3,9 @@ import DocumentContent from './document-content'
 
 async function getData(docId: string) {
   try {
-    const data = await prisma.case_docs.findUnique({
+    const data = await prisma.case_File.findUnique({
       where: {
-        xata_id: docId,
+        id: docId,
       },
     })
     return data

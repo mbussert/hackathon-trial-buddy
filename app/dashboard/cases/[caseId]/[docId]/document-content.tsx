@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { CaseDocsRecord, getXataClient } from '@/src/xata'
+import { CaseFileRecord, getXataClient } from '@/src/xata'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { toast } from 'sonner'
@@ -14,7 +14,7 @@ const xata = getXataClient()
 
 async function getDocument(docId: string) {
   try {
-    const pdfDocument = (await xata.db.case_docs.read(docId, ['*', 'document.signedUrl'])) as any
+    const pdfDocument = (await xata.db.Case_File.read(docId, ['*', 'document.signedUrl'])) as any
 
     const serializedDoc = pdfDocument.toSerializable()
 
@@ -26,7 +26,7 @@ async function getDocument(docId: string) {
   }
 }
 
-export default async function DocumentContent({ docData }: { docData: CaseDocsRecord }) {
+export default async function DocumentContent({ docData }: { docData: CaseFileRecord }) {
   const uploadDate = format(docData.xata_createdat, 'PPP')
 
   if (!docData?.summary) {
@@ -67,7 +67,7 @@ export default async function DocumentContent({ docData }: { docData: CaseDocsRe
     <>
       <header className="flex items-center justify-between pb-4 border-b">
         <div>
-          <h1 className="text-2xl font-bold">{docData.fileName}</h1>
+          <h1 className="text-2xl font-bold">{docData.file_name}</h1>
           <h1 className="text-xl ">Type: {docData.type}</h1>
           <h2>{caseInformation?.court}</h2>
           <h2>{caseInformation?.caseNumber}</h2>

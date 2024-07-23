@@ -39,7 +39,7 @@ export async function createNewCase(
 
   const { client, defendant, case_number } = parsedData.data
 
-  await prisma.cases.create({
+  await prisma.case.create({
     data: {
       plaintiffs: ['John Doe'],
       defendants: [defendant],
